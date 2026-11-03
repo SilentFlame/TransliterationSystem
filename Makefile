@@ -1,5 +1,5 @@
 # Courtroom IndicXlit runtime — shippable entry points.
-# Run every target from this directory (runtime/).
+# Run every target from this directory.
 
 PY ?= .venv/bin/python
 PIP ?= .venv/bin/pip
@@ -20,7 +20,7 @@ setup-runtime: ## venv + minimal deps (tests, cost model, HTTP self-test; no tor
 	$(PIP) install -r requirements-runtime.txt
 
 setup: setup-runtime ## full ML stack (IndicXlit + torch). Needs pip<24.1 + --no-deps.
-	$(PIP) install --no-deps -r ../requirements.txt
+	$(PIP) install --no-deps -r requirements-ml.txt
 
 warm-model: ## download stock IndicXlit weights + Hindi rescore dict once
 	$(PY) -c "from ai4bharat.transliteration import XlitEngine; XlitEngine('hi', rescore=True)"

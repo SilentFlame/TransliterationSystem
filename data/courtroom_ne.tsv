@@ -1,0 +1,54 @@
+# Small courtroom named-entity / token spot-check set.
+# Format: roman<TAB>acceptable_native (first column is preferred gold).
+# Names and acronyms often stay roman or have multiple valid forms; the harness
+# records whether the preferred form appears in top-k and never fails the build
+# solely on NE (see benchmarks/quality_dakshina.py --strict-ne).
+ramlal	रामलाल
+suresh	सुरेश
+kumar	कुमार
+singh	सिंह
+yadav	यादव
+sharma	शर्मा
+verma	वर्मा
+gupta	गुप्ता
+mishra	मिश्रा
+pandey	पाण्डेय
+tiwari	तिवारी
+chaubey	चौबे
+dubey	दुबे
+pathak	पाठक
+jha	झा
+thakur	ठाकुर
+rawat	रावत
+bisht	बिष्ट
+negi	नेगी
+chauhan	चौहान
+rajput	राजपूत
+delhi	दिल्ली
+mumbai	मुंबई
+patna	पटना
+lucknow	लखनऊ
+varanasi	वाराणसी
+prayagraj	प्रयागराज
+fir	एफआईआर
+ipc	आईपीसी
+crpc	सीआरपीसी
+ncr	एनसीआर
+police	पुलिस
+thana	थाना
+adalat	अदालत
+nyayalay	न्यायालय
+vakil	वकील
+judge	जज
+magistrate	मजिस्ट्रेट
+mulzim	मुल्जिम
+gawah	गवाह
+shikayat	शिकायत
+bayaan	बयान
+saboot	सबूत
+hukumnama	हुकुमनामा
+jarimanah	जुरमाना
+jamanat	ज़मानत
+halaat	हालात
+ghari	घड़ी
+tariikh	तारीख़

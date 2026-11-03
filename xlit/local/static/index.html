@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Courtroom Editor · IndicXlit (local)</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <header>
+    <h1>Courtroom Editor <span class="sub">Hindi transliteration · runs locally</span></h1>
+    <div class="pills">
+      <span id="pill-engine" class="pill warn" title="Local engine">engine: starting…</span>
+      <span id="pill-staged" class="pill info hidden" title="Loaded, applies at the next word boundary"></span>
+      <span id="pill-central" class="pill" title="Central Model Registry link">central: unknown</span>
+      <span id="pill-latency" class="pill" title="Last lookup: browser round trip (engine compute)">lookup: –</span>
+    </div>
+    <div id="download" class="download hidden">
+      <span id="download-label"></span>
+      <div class="bar"><div id="download-fill"></div></div>
+    </div>
+  </header>
+
+  <main>
+    <div id="editor-wrap" class="editor-wrap">
+      <textarea id="editor" spellcheck="false" autocomplete="off" autocapitalize="off"
+        placeholder="Type romanized Hindi, e.g.  adalat ne gawah ko bulaya"></textarea>
+      <div id="dropdown" class="dropdown hidden" role="listbox" aria-label="Transliteration suggestions">
+        <div class="dd-head"><span id="dd-roman"></span><span id="dd-meta"></span></div>
+        <ol id="dd-list"></ol>
+        <div class="dd-foot">Space/punct: accept highlighted · ↑↓ choose · 1–9 pick · Enter accept · Esc keep roman</div>
+      </div>
+    </div>
+
+    <aside>
+      <h2>Recent commits</h2>
+      <ul id="activity"></ul>
+      <button id="btn-sync" type="button">Check central for updates</button>
+    </aside>
+  </main>
+
+  <div id="toast" class="toast hidden"></div>
+  <script src="/static/app.js"></script>
+</body>
+</html>

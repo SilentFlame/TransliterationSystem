@@ -1,0 +1,99 @@
+{
+  "url": "http://127.0.0.1:8765",
+  "self_test": false,
+  "config": {
+    "words": 20,
+    "k": 4,
+    "rps": 3.0
+  },
+  "scenarios": [
+    {
+      "scenario": "cold_cache",
+      "requests": 20,
+      "ok": 20,
+      "failures": 0,
+      "client_ms": {
+        "p50": 30.607,
+        "p95": 40.322,
+        "p99": 48.174,
+        "mean": 30.556
+      },
+      "server_ms": {
+        "p50": 28.22,
+        "p95": 37.59,
+        "mean": 28.275
+      },
+      "compute_ms": {
+        "p50": 28.11,
+        "p95": 37.47,
+        "mean": 28.186
+      },
+      "derived": {
+        "transport_ms_p95": 2.732,
+        "queue_ms_p95": 0.12
+      },
+      "cache_hits": 0,
+      "wall_s": 7.02,
+      "achieved_rps": 2.85
+    },
+    {
+      "scenario": "prefix_walk",
+      "requests": 143,
+      "ok": 143,
+      "failures": 0,
+      "client_ms": {
+        "p50": 12.459,
+        "p95": 23.251,
+        "p99": 30.703,
+        "mean": 10.516
+      },
+      "server_ms": {
+        "p50": 11.6,
+        "p95": 22.18,
+        "mean": 9.551
+      },
+      "compute_ms": {
+        "p50": 11.56,
+        "p95": 22.11,
+        "mean": 9.5
+      },
+      "derived": {
+        "transport_ms_p95": 1.071,
+        "queue_ms_p95": 0.07
+      },
+      "cache_hits": 57,
+      "wall_s": 1.508,
+      "achieved_rps": 94.83
+    },
+    {
+      "scenario": "burst",
+      "requests": 20,
+      "ok": 20,
+      "failures": 0,
+      "client_ms": {
+        "p50": 5.229,
+        "p95": 6.126,
+        "p99": 6.453,
+        "mean": 4.874
+      },
+      "server_ms": {
+        "p50": 0.03,
+        "p95": 0.27,
+        "mean": 0.059
+      },
+      "compute_ms": {
+        "p50": 0.0,
+        "p95": 0.0,
+        "mean": 0.0
+      },
+      "derived": {
+        "transport_ms_p95": 5.856,
+        "queue_ms_p95": 0.27
+      },
+      "cache_hits": 20,
+      "wall_s": 0.01,
+      "achieved_rps": 2000.0
+    }
+  ],
+  "pass_hint": "Tier A gate is client_ms p95 < 100 on the weakest supported PC (cold_cache)."
+}

@@ -1,0 +1,85 @@
+{
+  "assumptions": {
+    "machines": 5000,
+    "courts": 200,
+    "base_mb": 138.3,
+    "rescore_mb": 358.1,
+    "releases_per_month": 1.0,
+    "cdn_usd_per_gb": 0.085,
+    "central_vm_usd_per_month": 30.0,
+    "object_storage_usd_per_month": 1.0,
+    "gpu_instance_usd_per_month": 380.0,
+    "tier_b_box_usd_capex": 400.0,
+    "tier_b_fraction": 0.15,
+    "amortize_months": 36
+  },
+  "scenarios": {
+    "direct_full": {
+      "label": "Every machine pulls base+rescore from central",
+      "egress_gb": 2423.83,
+      "egress_usd": 206.03,
+      "vm_usd": 30.0,
+      "storage_usd": 1.0,
+      "total_usd_per_month": 237.03,
+      "usd_per_1000_users": 47.41
+    },
+    "direct_weights_only": {
+      "label": "Weights-only release; dict reused via sha256 hard-link",
+      "egress_gb": 675.29,
+      "egress_usd": 57.4,
+      "vm_usd": 30.0,
+      "storage_usd": 1.0,
+      "total_usd_per_month": 88.4,
+      "usd_per_1000_users": 17.68
+    },
+    "court_mirrors_full": {
+      "label": "Court mirrors pull once per court (base+rescore)",
+      "egress_gb": 96.95,
+      "egress_usd": 8.24,
+      "vm_usd": 30.0,
+      "storage_usd": 1.0,
+      "total_usd_per_month": 39.24,
+      "usd_per_1000_users": 7.85
+    },
+    "court_mirrors_weights_only": {
+      "label": "Court mirrors, weights-only release",
+      "egress_gb": 27.01,
+      "egress_usd": 2.3,
+      "vm_usd": 30.0,
+      "storage_usd": 1.0,
+      "total_usd_per_month": 33.3,
+      "usd_per_1000_users": 6.66
+    }
+  },
+  "chosen_design": {
+    "name": "Tier A local inference + central registry + court mirrors",
+    "monthly_central_usd": 39.24,
+    "usd_per_1000_users": 7.85,
+    "tier_b_capex_amortized_usd_per_month": 666.67,
+    "tier_b_boxes_modeled": 60,
+    "note": "Keystroke path never hits central. Central bill is egress+VM. Tier B boxes are capex where the hardware gate fails."
+  },
+  "rejected_gpu_line": {
+    "label": "Always-on GPU inference API (rejected comparison line)",
+    "instances_for_500_concurrent_note": "One g4dn.xlarge-class instance (~$380/mo) already consumes most of a $500 ceiling before redundancy, cannot serve 500 concurrent typists with headroom, and does not fix WAN latency or blackout.",
+    "usd_per_month_one_instance": 380.0,
+    "usd_per_1000_users_one_instance": 76.0
+  },
+  "scale_10x": {
+    "machines": 50000,
+    "court_mirrors_full_usd": {
+      "egress_gb": 969.53,
+      "egress_usd": 82.41,
+      "vm_usd": 30.0,
+      "storage_usd": 1.0,
+      "total_usd_per_month": 113.41,
+      "usd_per_1000_users": 2.27
+    },
+    "what_breaks": [
+      "Release-day egress grows with courts, not typists \u2014 mirrors still win.",
+      "Central poll load ~80 req/s of mostly 304s \u2014 still trivial.",
+      "Tier B multi-worker capacity and on-site ops become the hard part if hardware-gate fail rate is high.",
+      "Signed manifests + cohort rollout needed before fleet size makes a bad publish expensive."
+    ]
+  }
+}

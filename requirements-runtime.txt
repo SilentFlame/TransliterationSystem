@@ -1,0 +1,6 @@
+# Minimal deps to run unit tests, the HTTP self-test harness, and the cost model.
+# No torch / fairseq — use requirements-ml.txt for the real IndicXlit engine.
+Flask>=3.0,<4
+Werkzeug>=3.0,<4
+requests>=2.31,<3
+flask-cors>=4.0,<7

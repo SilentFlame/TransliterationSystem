@@ -1,0 +1,99 @@
+{
+  "url": "http://127.0.0.1:50860",
+  "self_test": true,
+  "config": {
+    "words": 20,
+    "k": 4,
+    "rps": 3.0
+  },
+  "scenarios": [
+    {
+      "scenario": "cold_cache",
+      "requests": 20,
+      "ok": 20,
+      "failures": 0,
+      "client_ms": {
+        "p50": 5.05,
+        "p95": 6.441,
+        "p99": 6.65,
+        "mean": 4.788
+      },
+      "server_ms": {
+        "p50": 0.25,
+        "p95": 0.37,
+        "mean": 0.255
+      },
+      "compute_ms": {
+        "p50": 0.02,
+        "p95": 0.03,
+        "mean": 0.019
+      },
+      "derived": {
+        "transport_ms_p95": 6.071,
+        "queue_ms_p95": 0.34
+      },
+      "cache_hits": 0,
+      "wall_s": 6.504,
+      "achieved_rps": 3.08
+    },
+    {
+      "scenario": "prefix_walk",
+      "requests": 143,
+      "ok": 143,
+      "failures": 0,
+      "client_ms": {
+        "p50": 0.759,
+        "p95": 1.425,
+        "p99": 3.657,
+        "mean": 0.917
+      },
+      "server_ms": {
+        "p50": 0.03,
+        "p95": 0.08,
+        "mean": 0.039
+      },
+      "compute_ms": {
+        "p50": 0.0,
+        "p95": 0.01,
+        "mean": 0.001
+      },
+      "derived": {
+        "transport_ms_p95": 1.345,
+        "queue_ms_p95": 0.07
+      },
+      "cache_hits": 51,
+      "wall_s": 0.135,
+      "achieved_rps": 1059.26
+    },
+    {
+      "scenario": "burst",
+      "requests": 20,
+      "ok": 20,
+      "failures": 0,
+      "client_ms": {
+        "p50": 6.45,
+        "p95": 7.383,
+        "p99": 7.473,
+        "mean": 5.857
+      },
+      "server_ms": {
+        "p50": 0.02,
+        "p95": 0.03,
+        "mean": 0.024
+      },
+      "compute_ms": {
+        "p50": 0.0,
+        "p95": 0.0,
+        "mean": 0.0
+      },
+      "derived": {
+        "transport_ms_p95": 7.353,
+        "queue_ms_p95": 0.03
+      },
+      "cache_hits": 20,
+      "wall_s": 0.011,
+      "achieved_rps": 1818.18
+    }
+  ],
+  "pass_hint": "Tier A gate is client_ms p95 < 100 on the weakest supported PC (cold_cache)."
+}

@@ -55,7 +55,9 @@ hardening, not as a reason to put cloud inference back on the hot path.
 
 **Open interpretation of the absolute number.** Published Hindi Dakshina top-1
 is **60.56**. Our checked-in `data/dakshina_hi_sample.tsv` is a curated sample
-for offline reproducibility — its absolute top-1 is **not** comparable to 60.56.
+(405 pairs). `results/quality_dakshina.json` scores it at **78.77%** top-1 for
+stock and packaged base (lists identical) and **86.91%** with rescore. That
+absolute number needs the official test split before it can sit next to 60.56.
 
 **Proposed gate (what we implement):**
 

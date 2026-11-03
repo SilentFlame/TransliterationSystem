@@ -2,7 +2,7 @@
 
 **One line:** run IndicXlit *on the typist's machine* for every keystroke (**Tier A**); keep a **court LAN node** as package mirror and weak-PC fallback (**Tier B**); use the central service only to **distribute versioned model packages** — base weights first, rescore dictionary as a background upgrade.
 
-Related: [final design decisions](FINAL_DESIGN.md) · [LLD](LLD.md) · [decision log](../NOTES_decisions_and_learning.md) · [README](../README.md)
+Related: [final design decisions](FINAL_DESIGN.md) · [LLD](LLD.md) · [decision log](../IterativeIdeation.md) · [README](../README.md)
 
 Status legend: **[built]** works today · **[planned]** designed, not yet implemented.
 
@@ -222,7 +222,7 @@ This is the core argument for Tier A as default: the only failures that take it 
 | Flaky links | Offline-first boot, resumable + verified downloads, backoff | Central killed → suggestions continue; tests cover resume + corruption |
 | Scale (500 concurrent) | Compute scales with the typists' own CPUs; central handles only polls + downloads | 500 clients × 1 poll/min ≈ 8 req/s of 304s |
 | Cost | Central ≈ 1 small VM + storage/CDN egress; C4.1 mirror cuts egress per court | ~$240/mo direct vs ~$40/mo with mirrors (estimates, [FINAL_DESIGN §5.3](FINAL_DESIGN.md#53-cost-model)) |
-| Quality | Identical stock weights/decoding; rescore delivered as an upgrade | Same code path as stock `XlitEngine`. **Dakshina harness still to be built.** |
+| Quality | Identical stock weights/decoding; rescore delivered as an upgrade | `results/quality_dakshina.json`: packaged base ≡ stock (sample top-1 78.77%); rescore top-1 86.91%. Official Dakshina split still open. |
 | Mixed hardware | Hardware gate assigns Tier A or Tier B per machine | [planned] |
 | Observability | JSON logs on both sides; heartbeats with version/tier/p95 | `logs/local_client.log`, `logs/central_server.log` |
 

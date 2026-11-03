@@ -237,7 +237,7 @@ Central: `--registry var/registry`, `--chaos-fail-rate`, `--chaos-delay-ms` (sim
 
 ## 9. Testing
 
-`python -m unittest discover -s tests -t .` (24 tests, ~3 s, no model needed):
+`python -m unittest discover -s tests -t .` (29 tests, a few seconds, no model needed):
 * manifest validation (path traversal, schema, sha)
 * Engine Manager promotion rules, cache invalidation, `plan_next_load` matrix
 * end-to-end over real HTTP: bootstrap → rescore staged → promote; new version with local dedupe + prune; offline boot from cache; Range resume and corruption rejection; local API validation; relative registry paths
@@ -253,5 +253,5 @@ Manual / integration: see README "Demo scenarios". These were run against the re
 | werkzeug threaded server | central: gunicorn behind a CDN, artifacts in object storage; local: same process packaged as an OS service / tray app |
 | sha256 integrity | + signed manifests (ed25519), pinned key in the client |
 | `LATEST` per language | cohort rollout (`LATEST` per channel / % of client_ids), driven by heartbeat health |
-| roman text in logs | redacted INFO logs; metrics exported instead of grepping logs |
+| INFO logs already redact roman / chosen text (`--log-content` to opt in) | retention policy for even redacted logs; metrics export instead of grepping logs |
 | Hindi only | one package per language; manifests per `lang` already supported |

@@ -189,16 +189,25 @@ def main(argv: list[str] | None = None) -> int:
             "delta_top1": round(results["stock_rescore"]["top1"] - results["stock"]["top1"], 4),
         }
 
+    def _rel(path: Path | None) -> str | None:
+        if path is None:
+            return None
+        resolved = path.resolve()
+        try:
+            return str(resolved.relative_to(ROOT))
+        except ValueError:
+            return str(resolved)
+
     report = {
         "config": {
-            "lexicon": str(args.lexicon),
-            "ne": str(args.ne) if ne_pairs else None,
+            "lexicon": _rel(args.lexicon),
+            "ne": _rel(args.ne) if ne_pairs else None,
             "arms": arms,
             "lang": args.lang,
             "beam": args.beam,
             "topk": args.topk,
             "n": len(pairs),
-            "package_dir": str(args.package_dir) if args.package_dir else None,
+            "package_dir": _rel(args.package_dir) if args.package_dir else None,
         },
         "arms": {k: v for k, v in results.items() if isinstance(v, dict) and "arm" in v},
         "gate": gate,

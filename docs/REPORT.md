@@ -55,12 +55,12 @@ as the hearing starts cannot absorb a 138 MB download.
 
 ## 3. Prototype
 
-Under `runtime/`:
+In this repo:
 
 * **C3 Central Model Registry** — atomic immutable publish, ETag polling, Range downloads, chaos knobs.
 * **C2 Local Xlit Service** — package store, sync agent, dual engine slots, prefix LRU, localhost suggest API.
 * **C1 Editor UI** — keystroke dropdown, commit/dismiss, status bar.
-* **Tests** — 24 unit/e2e tests with a fake engine over real HTTP (no model needed).
+* **Tests** — 29 unit/e2e tests with a fake engine over real HTTP (no model needed).
 * **Harnesses** — stock latency sweep, HTTP typing/load (3 layers), Dakshina-style quality gate, cost model.
 
 Privacy: INFO logs redact roman / chosen text by default (`--log-content` to opt in).
@@ -87,8 +87,10 @@ only the Hindi dict from a local package is ~2.3 s.
 
 HTTP harness (`benchmarks/latency_http.py`) records **client_ms / server_ms /
 compute_ms** so transport vs queueing is visible. `--self-test` runs against an
-in-process fake stack without torch; point `--url` at a warm local service for
-real numbers.
+in-process fake stack without torch. `results/latency_http.json` is a real run
+against a warm local service on this MacBook: cold-cache client p95 **40 ms**
+(20 distinct words, 3 lookups/s), prefix-walk client p95 **23 ms** (57 cache hits
+of 143 lookups). A 5-minute soak and the weakest-PC profile are still open.
 
 **Pass criterion we hold ourselves to:** client-observed p95 **&lt; 100 ms** on
 the weakest supported PC (hardware gate — see OPEN_QUESTIONS). MacBook numbers
@@ -96,13 +98,22 @@ are necessary but not sufficient.
 
 ### 4.3 Quality
 
-Harness: `benchmarks/quality_dakshina.py` on `data/dakshina_hi_sample.tsv`
-(exact string match top-1 / top-k). Arms: stock · packaged base · packaged rescore.
+Harness: `benchmarks/quality_dakshina.py`. Recorded run:
+`results/quality_dakshina.json` — exact string match, beam 4, top-4, on
+`data/dakshina_hi_sample.tsv` (405 pairs) and `data/courtroom_ne.tsv` (49 rows).
 
-* Packaging gate: `base` candidate lists must equal `stock` on the same inputs.
-* Absolute top-1 on the sample ≠ published Dakshina **60.56** (different split);
-  full-split run is a next step.
-* Courtroom NE spot-check: `data/courtroom_ne.tsv` (informational; Esc / keep-roman covers acronyms like `FIR`).
+| Arm | Sample top-1 | Sample top-4 | Courtroom NE top-1 |
+|---|---|---|---|
+| Stock `XlitEngine` | 78.77% | 94.07% | 75.51% |
+| Packaged `base` | 78.77% | 94.07% | 75.51% |
+| Packaged `rescore` | 86.91% | 94.07% | 79.59% |
+
+Packaged `base` candidate lists are identical to stock (`packaging_identical: true`).
+Rescore top-1 is higher than base on both files, so the background upgrade is the
+right direction. The published Hindi Dakshina top-1 of **60.56** needs the official
+test split; this file is a curated sample, so the deployment gate is the
+stock-vs-packaged identity and the rescore delta. Esc / keep-roman still covers
+acronyms such as `FIR`.
 
 ### 4.4 Cost model
 
@@ -138,7 +149,6 @@ languages beyond Hindi, full Dakshina CI, OS-service packaging.
 ## 6. How to reproduce
 
 ```bash
-cd runtime
 make setup-runtime && make demo-check   # no model
 # full path:
 make setup && make warm-model && make publish

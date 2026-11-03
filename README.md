@@ -2,10 +2,8 @@
 
 **Shippable prototype** for the courtroom transliteration assignment: live Hindi
 suggestions for typists, with the model on the typist's machine and a central
-registry that only distributes versioned packages.
-
-> The earlier exploration under the repo root (`../xlit`, `../NOTES_…`) is kept
-> as-is. **This `runtime/` directory is the submission you should run and review.**
+registry that only distributes versioned packages. Decision history:
+[IterativeIdeation.md](IterativeIdeation.md).
 
 | Doc | What it is |
 |---|---|
@@ -33,7 +31,7 @@ registry that only distributes versioned packages.
 ## Layout
 
 ```
-runtime/
+.
 ├── xlit/
 │   ├── common/          # manifest schema, JSON logging, HTTP helper
 │   ├── central/         # registry, publisher CLI, HTTP server
@@ -49,7 +47,7 @@ runtime/
 ├── results/             # committed baseline numbers + harness outputs
 ├── Makefile
 ├── requirements-runtime.txt   # Flask/requests — enough for tests + cost + HTTP self-test
-└── requirements-ml.txt        # notes; `make setup` installs the root freeze
+└── requirements-ml.txt        # IndicXlit + torch freeze; `make setup` installs it with --no-deps
 ```
 
 ---
@@ -59,7 +57,6 @@ runtime/
 Requires **Python 3.10**.
 
 ```bash
-cd runtime
 make setup-runtime          # .venv + Flask/requests only
 make demo-check             # unit tests + cost model + HTTP self-test
 ```
@@ -73,8 +70,7 @@ Expected: all tests pass; `results/cost_model.json` and `results/latency_http_se
 ### 1. Setup once
 
 ```bash
-cd runtime
-make setup                  # runtime deps + full freeze from ../requirements.txt
+make setup                  # runtime deps + requirements-ml.txt (IndicXlit + torch)
 make warm-model             # library downloads stock weights + Hindi rescore dict
 ```
 
@@ -144,7 +140,7 @@ python -m benchmarks.quality_dakshina --arms stock,base,rescore \
   --package-dir var/local_store/packages/hi/hi-1.0.0
 ```
 
-Quality gate: packaged `base` must emit the **same candidates** as stock on the same inputs (packaging regression). Absolute top-1 on the checked-in sample is **not** the published Dakshina 60.56 — that number needs the full official split; the deployment gate is the delta.
+Quality gate: packaged `base` must emit the **same candidates** as stock on the same inputs (packaging regression). The recorded run is `results/quality_dakshina.json`: base lists match stock (sample top-1 78.77%, top-4 94.07%), and rescore lifts sample top-1 to 86.91%. The published Dakshina Hindi top-1 of 60.56 needs the official test split; this sample is the packaging gate.
 
 Cost model (assumptions are estimates to verify): with ~200 court mirrors, central ≈ **$40/mo** (~$8 / 1k users) vs ~$240/mo if every machine pulls direct, vs ~$380/mo for a single always-on GPU instance that still fails the latency/blackout story. Details: `make bench-cost` and [docs/REPORT.md](docs/REPORT.md).
 
@@ -153,7 +149,7 @@ Cost model (assumptions are estimates to verify): with ~200 court mirrors, centr
 ## Tests
 
 ```bash
-make test                   # ~24 tests, a few seconds, no model
+make test                   # 29 tests, a few seconds, no model
 ```
 
 ---

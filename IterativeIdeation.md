@@ -1,7 +1,7 @@
 # IndicXlit Courtroom Runtime — Decision Log & Learning Notes
 
-> **Shippable code + report:** see [`runtime/`](runtime/README.md).
-> Open questions / next steps: [`runtime/docs/OPEN_QUESTIONS.md`](runtime/docs/OPEN_QUESTIONS.md).
+> **Shippable code + report:** see [README.md](README.md) and [docs/REPORT.md](docs/REPORT.md).
+> Open questions / next steps: [docs/OPEN_QUESTIONS.md](docs/OPEN_QUESTIONS.md).
 > This file remains the chronological thinking trail from iterations 0–6.
 
 ## Iterations of thinking (what we considered, in order)

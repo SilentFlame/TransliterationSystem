@@ -2,7 +2,7 @@
 
 Decision record for the design we are building to. Explains **what we ship, where it runs, how it is distributed, and how we will prove it** — plus the options we rejected and why.
 
-Related: [HLD](HLD.md) · [LLD](LLD.md) · [decision log](../NOTES_decisions_and_learning.md) · [README](../README.md)
+Related: [HLD](HLD.md) · [LLD](LLD.md) · [decision log](../IterativeIdeation.md) · [README](../README.md)
 
 Status legend used throughout: **[built]** works today in this repo · **[planned]** designed, not yet implemented.
 
@@ -127,7 +127,7 @@ It is not one number. It is three budgets, measured separately:
 
 ## 5. How we benchmark it
 
-Three separate exercises, each with its pass criterion stated up front. **All three are [planned]** — only the single-process warm-compute sweep (`benchmarks/latency_baseline.py`) exists today.
+Three separate exercises, each with its pass criterion stated up front. The harnesses are **[built]**. Runs that still need court hardware or the official Dakshina test split are **[planned]**.
 
 ### 5.1 Quality — the Dakshina gate
 
@@ -144,7 +144,7 @@ Three separate exercises, each with its pass criterion stated up front. **All th
 
 ### 5.2 Latency and load
 
-Today's `benchmarks/latency_baseline.py` measures single-process warm compute [built]. What is missing is a harness driving the real HTTP endpoint under realistic typing.
+`benchmarks/latency_baseline.py` measures single-process warm compute **[built]**. `benchmarks/latency_http.py` drives the real suggest API and records the three layers below **[built]**. `results/latency_http.json` is a MacBook run against a warm local service (20 distinct words at 3 lookups/s, plus a prefix walk): cold-cache client p95 **40 ms**, prefix-walk client p95 **23 ms**. Still open: the weakest-PC profile, a court-node multi-typist load, and a 500-client registry poll.
 
 **Always record three layers** so queueing is visible, not inferred:
 
@@ -224,9 +224,9 @@ Also model: Tier B hardware (a modest box per court where needed) as **capex per
 
 ## 7. What exists vs what is next
 
-**Built and verified in this repo:** central registry with atomic immutable publishing; manifest schema with path/hash validation; local service with prefix cache, dual engine slots and word-boundary promotion; resumable, checksum-verified downloads with local dedupe and pruning; offline-first boot and backoff; keystroke editor UI with dropdown, accept/pick/keep; JSON logging on both sides; 24 tests.
+**Built and verified in this repo:** central registry with atomic immutable publishing; manifest schema with path/hash validation; local service with prefix cache, dual engine slots and word-boundary promotion; resumable, checksum-verified downloads with local dedupe and pruning; offline-first boot and backoff; keystroke editor UI with dropdown, accept/pick/keep; JSON logging on both sides; 29 tests.
 
-**Built in this `runtime/` tree (beyond the prototype):** Dakshina-style quality harness + checked-in sample; HTTP typing/load harness with three latency layers; cost model script with GPU comparison line; privacy-safe INFO logs by default (`--log-content` to opt in); `requirements-runtime.txt` for model-free verification.
+**Also in this repo:** Dakshina-style quality harness + checked-in sample; HTTP typing/load harness with three latency layers; cost model script with GPU comparison line; privacy-safe INFO logs by default (`--log-content` to opt in); `requirements-runtime.txt` for model-free verification.
 
 **Next, in priority order:**
 

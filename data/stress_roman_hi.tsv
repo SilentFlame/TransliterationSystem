@@ -1,0 +1,166 @@
+# Romanized Hindi sentences for the fleet typing stress test.
+# Format: roman sentence<TAB>Devanagari sentence, word-aligned (same token count).
+# Authored for this repo: ~half courtroom proceedings, ~half everyday / admin / names.
+# Roman spellings are informal, the way typists actually type (aaj, nahi, woh, gaon).
+# Gold is one standard Devanagari spelling, mostly without nukta (जमानत, मुलजिम), so
+# word top-1 here is a conservative number: a valid variant still counts as a miss.
+aaj adalat mein sunvai hogi	आज अदालत में सुनवाई होगी
+vakil sahab abhi tak nahi aaye	वकील साहब अभी तक नहीं आए
+gawah ne apna bayan darj karaya	गवाह ने अपना बयान दर्ज कराया
+mulzim ko agli tarikh par pesh kiya jaye	मुलजिम को अगली तारीख पर पेश किया जाए
+nyayadhish ne faisla surakshit rakha	न्यायाधीश ने फैसला सुरक्षित रखा
+jamanat ki arji par bahas hui	जमानत की अर्जी पर बहस हुई
+sarkari vakil ne virodh kiya	सरकारी वकील ने विरोध किया
+police ne charge sheet daakhil ki	पुलिस ने चार्ज शीट दाखिल की
+adalat ne agli sunvai ki tarikh di	अदालत ने अगली सुनवाई की तारीख दी
+gawah ko shapath dilayi gayi	गवाह को शपथ दिलाई गई
+abhiyukt ne aarop se inkar kiya	अभियुक्त ने आरोप से इनकार किया
+maamla do saal se lambit hai	मामला दो साल से लंबित है
+vadi paksh ki or se dastavez pesh kiye gaye	वादी पक्ष की ओर से दस्तावेज पेश किए गए
+pratyarthi ko notice jaari kiya jaye	प्रत्यर्थी को नोटिस जारी किया जाए
+adalat ka samay subah das baje hai	अदालत का समय सुबह दस बजे है
+mukadma sankhya teen sau bees	मुकदमा संख्या तीन सौ बीस
+gawahi ke baad jirah shuru hui	गवाही के बाद जिरह शुरू हुई
+aaropi ko hirasat mein bheja gaya	आरोपी को हिरासत में भेजा गया
+nyayalay ne yachika kharij kar di	न्यायालय ने याचिका खारिज कर दी
+is maamle mein koi saboot nahi mila	इस मामले में कोई सबूत नहीं मिला
+pichhli sunvai mein gawah gair hazir tha	पिछली सुनवाई में गवाह गैर हाजिर था
+vakil ne sthagan ki maang ki	वकील ने स्थगन की मांग की
+adalat ne kharcha lagaya	अदालत ने खर्चा लगाया
+faisle ki prati aavedak ko di jaye	फैसले की प्रति आवेदक को दी जाए
+thane mein report darj karai gayi	थाने में रिपोर्ट दर्ज कराई गई
+jaanch adhikari ne bayan diya	जांच अधिकारी ने बयान दिया
+peedit ke parivar ko suraksha di jaye	पीड़ित के परिवार को सुरक्षा दी जाए
+adalat ne zamanat manzoor kar li	अदालत ने जमानत मंजूर कर ली
+mulzim ko das hazaar rupaye ka muchalka bharna hoga	मुलजिम को दस हजार रुपये का मुचलका भरना होगा
+sabhi paksh agli tarikh par upasthit rahen	सभी पक्ष अगली तारीख पर उपस्थित रहें
+gawah ne mulzim ko pehchan liya	गवाह ने मुलजिम को पहचान लिया
+yeh dastavez jaali paya gaya	यह दस्तावेज जाली पाया गया
+zameen ke batware ka maamla hai	जमीन के बंटवारे का मामला है
+kiraayedar ne makaan khaali nahi kiya	किरायेदार ने मकान खाली नहीं किया
+talaak ki arji parivar nyayalay mein lagi hai	तलाक की अर्जी परिवार न्यायालय में लगी है
+bachche ki custody maa ko di gayi	बच्चे की कस्टडी मां को दी गई
+adalat ne gujara bhatta tay kiya	अदालत ने गुजारा भत्ता तय किया
+chek bounce ka mukadma darj hua	चेक बाउंस का मुकदमा दर्ज हुआ
+aaropi ne apna jurm kabool kiya	आरोपी ने अपना जुर्म कबूल किया
+saza teen saal ki kaid hai	सजा तीन साल की कैद है
+jurmana na dene par atirikt saza hogi	जुर्माना न देने पर अतिरिक्त सजा होगी
+apeel uchch nyayalay mein dayar ki gayi	अपील उच्च न्यायालय में दायर की गई
+stay order ki maang ki gayi	स्टे ऑर्डर की मांग की गई
+bayan ko record par liya jaye	बयान को रिकॉर्ड पर लिया जाए
+court ne police se report mangi	कोर्ट ने पुलिस से रिपोर्ट मांगी
+sunvai band kamre mein hogi	सुनवाई बंद कमरे में होगी
+gawah ko dhamki di ja rahi hai	गवाह को धमकी दी जा रही है
+mamle ki agli peshi somvar ko hai	मामले की अगली पेशी सोमवार को है
+vakil ne nazir pesh kiya	वकील ने नजीर पेश किया
+adalat ne dono pakshon ko suna	अदालत ने दोनों पक्षों को सुना
+aadesh ki pratilipi sabhi ko bheji jaye	आदेश की प्रतिलिपि सभी को भेजी जाए
+nyayik hirasat chaudah din badhai gayi	न्यायिक हिरासत चौदह दिन बढ़ाई गई
+abhiyojan paksh ne gawahon ki suchi di	अभियोजन पक्ष ने गवाहों की सूची दी
+bachav paksh ne samay manga	बचाव पक्ष ने समय मांगा
+mulzim ki taraf se koi hazir nahi hua	मुलजिम की तरफ से कोई हाजिर नहीं हुआ
+vaarant jaari karne ka aadesh diya gaya	वारंट जारी करने का आदेश दिया गया
+samjhauta lok adalat mein hua	समझौता लोक अदालत में हुआ
+mukadme ki file gum ho gayi hai	मुकदमे की फाइल गुम हो गई है
+adalat ne naksha talab kiya	अदालत ने नक्शा तलब किया
+sampatti ki kurki ka aadesh hua	संपत्ति की कुर्की का आदेश हुआ
+hastakshar ki jaanch karai jaye	हस्ताक्षर की जांच कराई जाए
+doctor ki report adalat mein pesh hui	डॉक्टर की रिपोर्ट अदालत में पेश हुई
+panchnama gawahon ke saamne banaya gaya	पंचनामा गवाहों के सामने बनाया गया
+aaropi ke khilaf dhara chaar sau bees lagi	आरोपी के खिलाफ धारा चार सौ बीस लगी
+adalat ne aaropon ko tay kiya	अदालत ने आरोपों को तय किया
+vakalatnama daakhil kiya gaya	वकालतनामा दाखिल किया गया
+sunvai ke dauran shanti banaye rakhen	सुनवाई के दौरान शांति बनाए रखें
+gawah ne galat bayan diya	गवाह ने गलत बयान दिया
+adalat ne gawah ko phir se bulaya	अदालत ने गवाह को फिर से बुलाया
+nyayadhish chhutti par hain	न्यायाधीश छुट्टी पर हैं
+aaj ki sunvai sthagit ki jaati hai	आज की सुनवाई स्थगित की जाती है
+mukadme mein antim bahas puri hui	मुकदमे में अंतिम बहस पूरी हुई
+faisla agle mahine sunaya jayega	फैसला अगले महीने सुनाया जाएगा
+aavedan patra par hastakshar karein	आवेदन पत्र पर हस्ताक्षर करें
+shikayatkarta ne apni shikayat wapas li	शिकायतकर्ता ने अपनी शिकायत वापस ली
+mulzim ko bari kar diya gaya	मुलजिम को बरी कर दिया गया
+adalat ne saboot ke abhav mein chhod diya	अदालत ने सबूत के अभाव में छोड़ दिया
+is aadesh ke viruddh apeel ki ja sakti hai	इस आदेश के विरुद्ध अपील की जा सकती है
+nyayalay parisar mein mobile band rakhen	न्यायालय परिसर में मोबाइल बंद रखें
+sabhi gawahon ke bayan ho chuke hain	सभी गवाहों के बयान हो चुके हैं
+mera naam ramesh kumar hai	मेरा नाम रमेश कुमार है
+main delhi mein rehta hoon	मैं दिल्ली में रहता हूं
+aap kaise hain	आप कैसे हैं
+kal subah baarish hui thi	कल सुबह बारिश हुई थी
+hum log shaam ko bazaar jayenge	हम लोग शाम को बाजार जाएंगे
+mujhe paani chahiye	मुझे पानी चाहिए
+yeh kitab bahut acchi hai	यह किताब बहुत अच्छी है
+uska ghar school ke paas hai	उसका घर स्कूल के पास है
+meri maa khana bana rahi hai	मेरी मां खाना बना रही है
+bacche bahar khel rahe hain	बच्चे बाहर खेल रहे हैं
+aaj mausam bahut garam hai	आज मौसम बहुत गरम है
+kya aap mere saath chalenge	क्या आप मेरे साथ चलेंगे
+humein samay par pahunchna hai	हमें समय पर पहुंचना है
+train do ghante der se aayi	ट्रेन दो घंटे देर से आई
+dukaan das baje khulti hai	दुकान दस बजे खुलती है
+mera bhai engineer hai	मेरा भाई इंजीनियर है
+unhone mujhe phone kiya tha	उन्होंने मुझे फोन किया था
+doodh aur chai le aao	दूध और चाय ले आओ
+hum agle saal ghoomne jayenge	हम अगले साल घूमने जाएंगे
+sarkar ne nayi yojana shuru ki	सरकार ने नई योजना शुरू की
+kisan khet mein kaam kar rahe hain	किसान खेत में काम कर रहे हैं
+bank mein khata kholna hai	बैंक में खाता खोलना है
+aadhaar card ki copy saath layein	आधार कार्ड की कॉपी साथ लाएं
+mujhe hindi bolna pasand hai	मुझे हिंदी बोलना पसंद है
+bharat ek vishal desh hai	भारत एक विशाल देश है
+shaadi agle mahine hogi	शादी अगले महीने होगी
+dawai khana khane ke baad lena	दवाई खाना खाने के बाद लेना
+aspatal yahan se door hai	अस्पताल यहां से दूर है
+hamare gaon mein bijli nahi hai	हमारे गांव में बिजली नहीं है
+pariksha ka parinaam aa gaya	परीक्षा का परिणाम आ गया
+usne pratham sthan prapt kiya	उसने प्रथम स्थान प्राप्त किया
+mujhe der ho rahi hai	मुझे देर हो रही है
+darwaza band kar do	दरवाजा बंद कर दो
+kripya shant rahiye	कृपया शांत रहिए
+dhanyavaad aapka	धन्यवाद आपका
+aapka swagat hai	आपका स्वागत है
+chunav agle saal honge	चुनाव अगले साल होंगे
+sadak par bahut bheed hai	सड़क पर बहुत भीड़ है
+woh roz subah daudta hai	वह रोज सुबह दौड़ता है
+humne naya ghar kharida	हमने नया घर खरीदा
+bazaar mein sabziyan mehngi hain	बाजार में सब्जियां महंगी हैं
+meri gaadi kharab ho gayi	मेरी गाड़ी खराब हो गई
+kal chhutti ka din hai	कल छुट्टी का दिन है
+yeh rasta station jata hai	यह रास्ता स्टेशन जाता है
+mujhe thodi madad chahiye	मुझे थोड़ी मदद चाहिए
+ganga nadi bahut pavitra hai	गंगा नदी बहुत पवित्र है
+diwali roshni ka tyohar hai	दिवाली रोशनी का त्योहार है
+school mein chhutti hai	स्कूल में छुट्टी है
+pitaji daftar gaye hain	पिताजी दफ्तर गए हैं
+hum sab ek parivar hain	हम सब एक परिवार हैं
+is kaam mein samay lagega	इस काम में समय लगेगा
+mausam vibhag ne chetavani di	मौसम विभाग ने चेतावनी दी
+kheti ke liye paani zaroori hai	खेती के लिए पानी जरूरी है
+yeh bahut purani imarat hai	यह बहुत पुरानी इमारत है
+mujhe nyay chahiye	मुझे न्याय चाहिए
+sach ki hamesha jeet hoti hai	सच की हमेशा जीत होती है
+gaon ke sarpanch ne baithak bulayi	गांव के सरपंच ने बैठक बुलाई
+zila adhikari ne daura kiya	जिला अधिकारी ने दौरा किया
+nagar nigam ne sadak banwai	नगर निगम ने सड़क बनवाई
+bijli ka bill jama karna hai	बिजली का बिल जमा करना है
+lucknow uttar pradesh ki rajdhani hai	लखनऊ उत्तर प्रदेश की राजधानी है
+patna bihar mein hai	पटना बिहार में है
+mumbai samundar ke kinare hai	मुंबई समुंदर के किनारे है
+varanasi ek prachin shahar hai	वाराणसी एक प्राचीन शहर है
+jaipur ko gulabi shahar kehte hain	जयपुर को गुलाबी शहर कहते हैं
+ramesh aur suresh bhai hain	रमेश और सुरेश भाई हैं
+sunita sharma adhyapika hain	सुनीता शर्मा अध्यापिका हैं
+rajesh verma ne gawahi di	राजेश वर्मा ने गवाही दी
+meena devi ne shikayat ki	मीना देवी ने शिकायत की
+anil gupta ka vakil hazir hai	अनिल गुप्ता का वकील हाजिर है
+pooja singh ka bayan hua	पूजा सिंह का बयान हुआ
+mohan lal ki zameen par kabza hai	मोहन लाल की जमीन पर कब्जा है
+shyam sundar ne apeel ki	श्याम सुंदर ने अपील की
+kavita yadav ki jamanat manzoor hui	कविता यादव की जमानत मंजूर हुई
+vijay kumar ko notice mila	विजय कुमार को नोटिस मिला
+geeta rani ne talaak ki arji di	गीता रानी ने तलाक की अर्जी दी
+prakash chand ki maut ho gayi	प्रकाश चंद की मौत हो गई
+sita ram ne gawah pesh kiye	सीता राम ने गवाह पेश किए
+ashok nagar thane mein report likhi gayi	अशोक नगर थाने में रिपोर्ट लिखी गई
+harish chandra ka mukadma chal raha hai	हरीश चंद्र का मुकदमा चल रहा है

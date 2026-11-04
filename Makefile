@@ -8,8 +8,8 @@ CENTRAL_PORT ?= 8700
 LOCAL_PORT ?= 8765
 export PYTHONPATH := $(CURDIR)
 
-.PHONY: help setup setup-runtime warm-model publish central local test \
-        bench-cost bench-http-selftest bench-latency bench-quality logs clean demo-check
+.PHONY: help setup setup-runtime warm-model publish central local test wan-proxy \
+        bench-cost bench-http-selftest bench-latency bench-quality bench-fleet logs clean demo-check
 
 help: ## show targets
 	@grep -E '^[a-zA-Z_-]+:.*?##' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  %-22s %s\n", $$1, $$2}'
@@ -48,6 +48,14 @@ bench-latency: ## stock-engine compute sweep (needs ML setup + warm-model)
 
 bench-quality: ## quality gate on checked-in sample (stock arm; needs ML setup)
 	$(PY) -m benchmarks.quality_dakshina --arms stock --out results/quality_stock.json
+
+wan-proxy: ## court-link emulator on :8701 in front of central (60 ms RTT, 100 Mbps shared)
+	$(PY) -m benchmarks.wan_proxy --listen 127.0.0.1:8701 --upstream 127.0.0.1:$(CENTRAL_PORT) \
+		--rtt-ms 60 --jitter-ms 10 --down-mbps 100 --up-mbps 20 --drop-per-mb 0.002
+
+bench-fleet: ## 16 fresh sessions through wan-proxy + 16 typists (needs central + wan-proxy running)
+	$(PY) -m benchmarks.fleet_stress --sessions 16 --fresh --central-url http://127.0.0.1:8701 \
+		--out results/stress_fleet_cold_wan.json
 
 demo-check: test bench-cost bench-http-selftest ## everything that runs without the model
 	@echo "demo-check OK"

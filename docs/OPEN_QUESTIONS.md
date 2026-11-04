@@ -27,6 +27,12 @@ Tier A services**, and report the other two as supporting budgets. A single
 local process blasted with 500 concurrent requests measures overload of the
 wrong topology.
 
+**Partly measured:** `benchmarks/fleet_stress.py` ran 16 real services and 16
+typists at once (`results/stress_fleet_*.json`). All of them shared one
+laptop's 11 cores, so it measures contention on a shared machine, not 500
+independent PCs. It found that default PyTorch threading doubles p95 under
+that contention; one thread per process fixes it.
+
 ### 1.2 Hardware gate thresholds
 
 **Open — needs court PC data.** Starting proposal from FINAL_DESIGN:
@@ -100,6 +106,7 @@ From FINAL_DESIGN §7, refined after this shippable pass:
 
 | # | Work | Why |
 |---|---|---|
+| 0 | Set one torch thread per local service by default | Measured: 16 typists p95 52 → 26 ms, zero lookups over 100 ms; no cost for one typist |
 | 1 | Run quality gate on **full** Dakshina hi split + package identity check in CI | Absolute number + pre-publish gate |
 | 2 | Weakest-PC profile + finalize hardware-gate numbers | Decides Tier A/B mix |
 | 3 | Wire `bench-quality` into `publish` (refuse to move `LATEST` on gate fail) | Release safety |

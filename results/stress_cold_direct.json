@@ -1,0 +1,239 @@
+{
+  "label": "cold start, 16 sessions, direct to central (no WAN)",
+  "started_at": "2026-11-03T21:28:45+0530",
+  "cold_start": {
+    "fleet_ready_s": 14.93,
+    "ready_s": {
+      "n": 16,
+      "p50": 14.89,
+      "p95": 14.91,
+      "p99": 14.91,
+      "max": 14.91,
+      "mean": 14.5
+    },
+    "ttfs_ms": {
+      "n": 16,
+      "p50": 13722.3,
+      "p95": 13845.4,
+      "p99": 13882.8,
+      "max": 13882.8,
+      "mean": 13449.86
+    },
+    "download_ms": {
+      "n": 16,
+      "p50": 4491.7,
+      "p95": 4619.5,
+      "p99": 4638.1,
+      "max": 4638.1,
+      "mean": 4265.7
+    },
+    "engine_load_ms": {
+      "n": 16,
+      "p50": 9166.3,
+      "p95": 9274.8,
+      "p99": 9285.0,
+      "max": 9285.0,
+      "mean": 9126.59
+    },
+    "ttfs_sources": [
+      "central_bootstrap"
+    ],
+    "resumed_downloads_total": 0,
+    "central_offline_events_total": 0,
+    "per_session": [
+      {
+        "session": 0,
+        "ready_s": 13.89,
+        "ttfs_ms": 12733.8,
+        "ttfs_source": "central_bootstrap",
+        "download_ms": 3500.3,
+        "engine_load_ms": 9197.0,
+        "resumed_downloads": 0,
+        "central_offline_events": 0
+      },
+      {
+        "session": 1,
+        "ready_s": 13.89,
+        "ttfs_ms": 12823.9,
+        "ttfs_source": "central_bootstrap",
+        "download_ms": 3511.3,
+        "engine_load_ms": 9274.8,
+        "resumed_downloads": 0,
+        "central_offline_events": 0
+      },
+      {
+        "session": 2,
+        "ready_s": 14.91,
+        "ttfs_ms": 13722.3,
+        "ttfs_source": "central_bootstrap",
+        "download_ms": 4619.5,
+        "engine_load_ms": 9054.2,
+        "resumed_downloads": 0,
+        "central_offline_events": 0
+      },
+      {
+        "session": 3,
+        "ready_s": 14.25,
+        "ttfs_ms": 13445.8,
+        "ttfs_source": "central_bootstrap",
+        "download_ms": 4467.5,
+        "engine_load_ms": 8912.5,
+        "resumed_downloads": 0,
+        "central_offline_events": 0
+      },
+      {
+        "session": 4,
+        "ready_s": 14.91,
+        "ttfs_ms": 13681.0,
+        "ttfs_source": "central_bootstrap",
+        "download_ms": 4591.9,
+        "engine_load_ms": 9035.4,
+        "resumed_downloads": 0,
+        "central_offline_events": 0
+      },
+      {
+        "session": 5,
+        "ready_s": 13.92,
+        "ttfs_ms": 12756.9,
+        "ttfs_source": "central_bootstrap",
+        "download_ms": 3486.0,
+        "engine_load_ms": 9226.9,
+        "resumed_downloads": 0,
+        "central_offline_events": 0
+      },
+      {
+        "session": 6,
+        "ready_s": 14.9,
+        "ttfs_ms": 13782.2,
+        "ttfs_source": "central_bootstrap",
+        "download_ms": 4562.9,
+        "engine_load_ms": 9164.3,
+        "resumed_downloads": 0,
+        "central_offline_events": 0
+      },
+      {
+        "session": 7,
+        "ready_s": 13.37,
+        "ttfs_ms": 12681.1,
+        "ttfs_source": "central_bootstrap",
+        "download_ms": 3609.8,
+        "engine_load_ms": 9017.3,
+        "resumed_downloads": 0,
+        "central_offline_events": 0
+      },
+      {
+        "session": 8,
+        "ready_s": 14.9,
+        "ttfs_ms": 13882.8,
+        "ttfs_source": "central_bootstrap",
+        "download_ms": 4638.1,
+        "engine_load_ms": 9193.1,
+        "resumed_downloads": 0,
+        "central_offline_events": 0
+      },
+      {
+        "session": 9,
+        "ready_s": 14.9,
+        "ttfs_ms": 13845.4,
+        "ttfs_source": "central_bootstrap",
+        "download_ms": 4502.7,
+        "engine_load_ms": 9285.0,
+        "resumed_downloads": 0,
+        "central_offline_events": 0
+      },
+      {
+        "session": 10,
+        "ready_s": 14.9,
+        "ttfs_ms": 13796.1,
+        "ttfs_source": "central_bootstrap",
+        "download_ms": 4568.0,
+        "engine_load_ms": 9166.3,
+        "resumed_downloads": 0,
+        "central_offline_events": 0
+      },
+      {
+        "session": 11,
+        "ready_s": 13.92,
+        "ttfs_ms": 13042.2,
+        "ttfs_source": "central_bootstrap",
+        "download_ms": 4144.4,
+        "engine_load_ms": 8845.7,
+        "resumed_downloads": 0,
+        "central_offline_events": 0
+      },
+      {
+        "session": 12,
+        "ready_s": 14.89,
+        "ttfs_ms": 13718.1,
+        "ttfs_source": "central_bootstrap",
+        "download_ms": 4480.7,
+        "engine_load_ms": 9153.4,
+        "resumed_downloads": 0,
+        "central_offline_events": 0
+      },
+      {
+        "session": 13,
+        "ready_s": 14.62,
+        "ttfs_ms": 13751.6,
+        "ttfs_source": "central_bootstrap",
+        "download_ms": 4608.3,
+        "engine_load_ms": 9093.5,
+        "resumed_downloads": 0,
+        "central_offline_events": 0
+      },
+      {
+        "session": 14,
+        "ready_s": 14.89,
+        "ttfs_ms": 13746.7,
+        "ttfs_source": "central_bootstrap",
+        "download_ms": 4491.7,
+        "engine_load_ms": 9170.4,
+        "resumed_downloads": 0,
+        "central_offline_events": 0
+      },
+      {
+        "session": 15,
+        "ready_s": 14.89,
+        "ttfs_ms": 13787.8,
+        "ttfs_source": "central_bootstrap",
+        "download_ms": 4468.1,
+        "engine_load_ms": 9235.7,
+        "resumed_downloads": 0,
+        "central_offline_events": 0
+      }
+    ]
+  },
+  "resources": {
+    "fleet_rss_peak_mb": 3613.4,
+    "per_session_rss_peak_mb": {
+      "n": 16,
+      "p50": 278.25,
+      "p95": 378.62,
+      "p99": 381.12,
+      "max": 381.12,
+      "mean": 280.53
+    },
+    "per_session_cpu_pct_mean": {
+      "n": 16,
+      "p50": 24.07,
+      "p95": 25.59,
+      "p99": 26.43,
+      "max": 26.43,
+      "mean": 22.11
+    }
+  },
+  "config": {
+    "sessions": 16,
+    "central_url": "http://127.0.0.1:8700",
+    "fresh": true,
+    "rescore": "off",
+    "torch_threads": "default",
+    "dataset": "data/stress_roman_hi.tsv",
+    "sentences": 160,
+    "typists": 0,
+    "key_ms": 180.0,
+    "key_jitter_ms": 60.0,
+    "word_gap_ms": 250.0,
+    "host_cpus": 11
+  }
+}

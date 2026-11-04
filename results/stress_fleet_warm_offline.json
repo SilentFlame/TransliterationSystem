@@ -1,0 +1,594 @@
+{
+  "label": "warm restart from local store with the court link DOWN, then 16 concurrent typists",
+  "started_at": "2026-11-03T21:34:09+0530",
+  "cold_start": {
+    "fleet_ready_s": 11.21,
+    "ready_s": {
+      "n": 16,
+      "p50": 11.18,
+      "p95": 11.19,
+      "p99": 11.19,
+      "max": 11.19,
+      "mean": 11.18
+    },
+    "ttfs_ms": {
+      "n": 16,
+      "p50": 10190.1,
+      "p95": 10319.4,
+      "p99": 10331.8,
+      "max": 10331.8,
+      "mean": 10205.23
+    },
+    "download_ms": {
+      "n": 0
+    },
+    "engine_load_ms": {
+      "n": 16,
+      "p50": 10181.6,
+      "p95": 10301.3,
+      "p99": 10314.2,
+      "max": 10314.2,
+      "mean": 10194.38
+    },
+    "ttfs_sources": [
+      "local_cache"
+    ],
+    "resumed_downloads_total": 0,
+    "central_offline_events_total": 16,
+    "per_session": [
+      {
+        "session": 0,
+        "ready_s": 11.19,
+        "ttfs_ms": 10331.8,
+        "ttfs_source": "local_cache",
+        "download_ms": null,
+        "engine_load_ms": 10314.2,
+        "resumed_downloads": 0,
+        "central_offline_events": 1
+      },
+      {
+        "session": 1,
+        "ready_s": 11.19,
+        "ttfs_ms": 10319.4,
+        "ttfs_source": "local_cache",
+        "download_ms": null,
+        "engine_load_ms": 10301.3,
+        "resumed_downloads": 0,
+        "central_offline_events": 1
+      },
+      {
+        "session": 2,
+        "ready_s": 11.18,
+        "ttfs_ms": 10312.5,
+        "ttfs_source": "local_cache",
+        "download_ms": null,
+        "engine_load_ms": 10294.8,
+        "resumed_downloads": 0,
+        "central_offline_events": 1
+      },
+      {
+        "session": 3,
+        "ready_s": 11.18,
+        "ttfs_ms": 10244.0,
+        "ttfs_source": "local_cache",
+        "download_ms": null,
+        "engine_load_ms": 10235.2,
+        "resumed_downloads": 0,
+        "central_offline_events": 1
+      },
+      {
+        "session": 4,
+        "ready_s": 11.18,
+        "ttfs_ms": 10190.1,
+        "ttfs_source": "local_cache",
+        "download_ms": null,
+        "engine_load_ms": 10181.6,
+        "resumed_downloads": 0,
+        "central_offline_events": 1
+      },
+      {
+        "session": 5,
+        "ready_s": 11.18,
+        "ttfs_ms": 10103.6,
+        "ttfs_source": "local_cache",
+        "download_ms": null,
+        "engine_load_ms": 10093.5,
+        "resumed_downloads": 0,
+        "central_offline_events": 1
+      },
+      {
+        "session": 6,
+        "ready_s": 11.18,
+        "ttfs_ms": 10305.9,
+        "ttfs_source": "local_cache",
+        "download_ms": null,
+        "engine_load_ms": 10296.9,
+        "resumed_downloads": 0,
+        "central_offline_events": 1
+      },
+      {
+        "session": 7,
+        "ready_s": 11.18,
+        "ttfs_ms": 10244.9,
+        "ttfs_source": "local_cache",
+        "download_ms": null,
+        "engine_load_ms": 10235.3,
+        "resumed_downloads": 0,
+        "central_offline_events": 1
+      },
+      {
+        "session": 8,
+        "ready_s": 11.18,
+        "ttfs_ms": 10102.6,
+        "ttfs_source": "local_cache",
+        "download_ms": null,
+        "engine_load_ms": 10092.4,
+        "resumed_downloads": 0,
+        "central_offline_events": 1
+      },
+      {
+        "session": 9,
+        "ready_s": 11.18,
+        "ttfs_ms": 10092.7,
+        "ttfs_source": "local_cache",
+        "download_ms": null,
+        "engine_load_ms": 10085.1,
+        "resumed_downloads": 0,
+        "central_offline_events": 1
+      },
+      {
+        "session": 10,
+        "ready_s": 11.17,
+        "ttfs_ms": 10265.5,
+        "ttfs_source": "local_cache",
+        "download_ms": null,
+        "engine_load_ms": 10257.4,
+        "resumed_downloads": 0,
+        "central_offline_events": 1
+      },
+      {
+        "session": 11,
+        "ready_s": 11.17,
+        "ttfs_ms": 10158.8,
+        "ttfs_source": "local_cache",
+        "download_ms": null,
+        "engine_load_ms": 10150.0,
+        "resumed_downloads": 0,
+        "central_offline_events": 1
+      },
+      {
+        "session": 12,
+        "ready_s": 11.17,
+        "ttfs_ms": 10075.6,
+        "ttfs_source": "local_cache",
+        "download_ms": null,
+        "engine_load_ms": 10066.1,
+        "resumed_downloads": 0,
+        "central_offline_events": 1
+      },
+      {
+        "session": 13,
+        "ready_s": 11.17,
+        "ttfs_ms": 10173.0,
+        "ttfs_source": "local_cache",
+        "download_ms": null,
+        "engine_load_ms": 10161.3,
+        "resumed_downloads": 0,
+        "central_offline_events": 1
+      },
+      {
+        "session": 14,
+        "ready_s": 11.17,
+        "ttfs_ms": 10174.1,
+        "ttfs_source": "local_cache",
+        "download_ms": null,
+        "engine_load_ms": 10165.1,
+        "resumed_downloads": 0,
+        "central_offline_events": 1
+      },
+      {
+        "session": 15,
+        "ready_s": 11.16,
+        "ttfs_ms": 10189.1,
+        "ttfs_source": "local_cache",
+        "download_ms": null,
+        "engine_load_ms": 10179.8,
+        "resumed_downloads": 0,
+        "central_offline_events": 1
+      }
+    ]
+  },
+  "typing": {
+    "typists": 16,
+    "keystrokes": 4045,
+    "failures": 0,
+    "wall_s": 67.9,
+    "aggregate_lookups_per_s": 59.6,
+    "cache_hit_rate": 0.2979,
+    "client_ms": {
+      "n": 4045,
+      "p50": 27.81,
+      "p95": 54.78,
+      "p99": 83.59,
+      "max": 194.34,
+      "mean": 25.99
+    },
+    "client_ms_after_first_key": {
+      "n": 4029,
+      "p50": 27.78,
+      "p95": 53.81,
+      "p99": 75.33,
+      "max": 188.38,
+      "mean": 25.41
+    },
+    "first_key_ms": {
+      "n": 16,
+      "p50": 171.02,
+      "p95": 185.68,
+      "p99": 194.34,
+      "max": 194.34,
+      "mean": 173.33
+    },
+    "client_ms_cache_miss": {
+      "n": 2840,
+      "p50": 32.64,
+      "p95": 59.63,
+      "p99": 91.78,
+      "max": 194.34,
+      "mean": 36.12
+    },
+    "server_ms": {
+      "n": 4045,
+      "p50": 25.61,
+      "p95": 51.92,
+      "p99": 75.68,
+      "max": 174.82,
+      "mean": 23.5
+    },
+    "compute_ms_cache_miss": {
+      "n": 2840,
+      "p50": 30.29,
+      "p95": 56.11,
+      "p99": 83.02,
+      "max": 174.54,
+      "mean": 33.37
+    },
+    "share_over_50ms": 0.0747,
+    "share_over_100ms": 0.0064,
+    "words": 902,
+    "word_top1": 0.8248,
+    "word_top4": 0.9812,
+    "per_session": [
+      {
+        "session": 0,
+        "keystrokes": 255,
+        "words": 59,
+        "client_p50_ms": 27.61,
+        "client_p95_ms": 56.94,
+        "client_max_ms": 171.02,
+        "first_key_ms": 171.02,
+        "keys_per_s": 4.02,
+        "word_top1": 0.8305
+      },
+      {
+        "session": 1,
+        "keystrokes": 240,
+        "words": 51,
+        "client_p50_ms": 28.91,
+        "client_p95_ms": 61.47,
+        "client_max_ms": 169.8,
+        "first_key_ms": 169.8,
+        "keys_per_s": 4.11,
+        "word_top1": 0.8039
+      },
+      {
+        "session": 2,
+        "keystrokes": 272,
+        "words": 62,
+        "client_p50_ms": 27.7,
+        "client_p95_ms": 50.96,
+        "client_max_ms": 164.79,
+        "first_key_ms": 164.79,
+        "keys_per_s": 4.01,
+        "word_top1": 0.8226
+      },
+      {
+        "session": 3,
+        "keystrokes": 277,
+        "words": 59,
+        "client_p50_ms": 27.26,
+        "client_p95_ms": 56.88,
+        "client_max_ms": 166.73,
+        "first_key_ms": 166.73,
+        "keys_per_s": 4.16,
+        "word_top1": 0.7966
+      },
+      {
+        "session": 4,
+        "keystrokes": 257,
+        "words": 59,
+        "client_p50_ms": 27.85,
+        "client_p95_ms": 56.85,
+        "client_max_ms": 168.33,
+        "first_key_ms": 168.33,
+        "keys_per_s": 4.18,
+        "word_top1": 0.8136
+      },
+      {
+        "session": 5,
+        "keystrokes": 237,
+        "words": 53,
+        "client_p50_ms": 27.78,
+        "client_p95_ms": 52.72,
+        "client_max_ms": 194.34,
+        "first_key_ms": 194.34,
+        "keys_per_s": 4.13,
+        "word_top1": 0.8679
+      },
+      {
+        "session": 6,
+        "keystrokes": 256,
+        "words": 57,
+        "client_p50_ms": 27.04,
+        "client_p95_ms": 58.24,
+        "client_max_ms": 167.17,
+        "first_key_ms": 167.17,
+        "keys_per_s": 4.14,
+        "word_top1": 0.8246
+      },
+      {
+        "session": 7,
+        "keystrokes": 252,
+        "words": 58,
+        "client_p50_ms": 27.71,
+        "client_p95_ms": 53.01,
+        "client_max_ms": 185.48,
+        "first_key_ms": 162.92,
+        "keys_per_s": 4.09,
+        "word_top1": 0.8103
+      },
+      {
+        "session": 8,
+        "keystrokes": 264,
+        "words": 58,
+        "client_p50_ms": 28.47,
+        "client_p95_ms": 55.06,
+        "client_max_ms": 176.56,
+        "first_key_ms": 176.56,
+        "keys_per_s": 4.12,
+        "word_top1": 0.7931
+      },
+      {
+        "session": 9,
+        "keystrokes": 230,
+        "words": 52,
+        "client_p50_ms": 27.02,
+        "client_p95_ms": 50.34,
+        "client_max_ms": 175.23,
+        "first_key_ms": 175.23,
+        "keys_per_s": 4.08,
+        "word_top1": 0.9038
+      },
+      {
+        "session": 10,
+        "keystrokes": 273,
+        "words": 58,
+        "client_p50_ms": 28.06,
+        "client_p95_ms": 55.27,
+        "client_max_ms": 165.64,
+        "first_key_ms": 165.64,
+        "keys_per_s": 4.17,
+        "word_top1": 0.8276
+      },
+      {
+        "session": 11,
+        "keystrokes": 233,
+        "words": 51,
+        "client_p50_ms": 29.12,
+        "client_p95_ms": 50.36,
+        "client_max_ms": 178.0,
+        "first_key_ms": 178.0,
+        "keys_per_s": 4.17,
+        "word_top1": 0.8431
+      },
+      {
+        "session": 12,
+        "keystrokes": 239,
+        "words": 55,
+        "client_p50_ms": 27.65,
+        "client_p95_ms": 52.34,
+        "client_max_ms": 188.38,
+        "first_key_ms": 185.68,
+        "keys_per_s": 4.17,
+        "word_top1": 0.7636
+      },
+      {
+        "session": 13,
+        "keystrokes": 259,
+        "words": 59,
+        "client_p50_ms": 26.54,
+        "client_p95_ms": 51.77,
+        "client_max_ms": 174.8,
+        "first_key_ms": 174.8,
+        "keys_per_s": 4.06,
+        "word_top1": 0.8475
+      },
+      {
+        "session": 14,
+        "keystrokes": 258,
+        "words": 55,
+        "client_p50_ms": 28.0,
+        "client_p95_ms": 55.45,
+        "client_max_ms": 169.8,
+        "first_key_ms": 169.8,
+        "keys_per_s": 4.05,
+        "word_top1": 0.7818
+      },
+      {
+        "session": 15,
+        "keystrokes": 243,
+        "words": 56,
+        "client_p50_ms": 28.98,
+        "client_p95_ms": 53.18,
+        "client_max_ms": 182.42,
+        "first_key_ms": 182.42,
+        "keys_per_s": 4.15,
+        "word_top1": 0.875
+      }
+    ],
+    "miss_sample": [
+      {
+        "roman": "gaye",
+        "gold": "गए",
+        "top1": false,
+        "topk": false,
+        "pred": "गये"
+      },
+      {
+        "roman": "nahi",
+        "gold": "नहीं",
+        "top1": false,
+        "topk": false,
+        "pred": "नही"
+      },
+      {
+        "roman": "chai",
+        "gold": "चाय",
+        "top1": false,
+        "topk": false,
+        "pred": "चाई"
+      },
+      {
+        "roman": "delhi",
+        "gold": "दिल्ली",
+        "top1": false,
+        "topk": false,
+        "pred": "देल्ही"
+      },
+      {
+        "roman": "maa",
+        "gold": "मां",
+        "top1": false,
+        "topk": false,
+        "pred": "मा"
+      },
+      {
+        "roman": "rasta",
+        "gold": "रास्ता",
+        "top1": false,
+        "topk": false,
+        "pred": "रस्ता"
+      },
+      {
+        "roman": "nahi",
+        "gold": "नहीं",
+        "top1": false,
+        "topk": false,
+        "pred": "नही"
+      },
+      {
+        "roman": "maa",
+        "gold": "मां",
+        "top1": false,
+        "topk": false,
+        "pred": "मा"
+      },
+      {
+        "roman": "nahi",
+        "gold": "नहीं",
+        "top1": false,
+        "topk": false,
+        "pred": "नही"
+      },
+      {
+        "roman": "kiraayedar",
+        "gold": "किरायेदार",
+        "top1": false,
+        "topk": false,
+        "pred": "किराएदार"
+      },
+      {
+        "roman": "nahi",
+        "gold": "नहीं",
+        "top1": false,
+        "topk": false,
+        "pred": "नही"
+      },
+      {
+        "roman": "gaye",
+        "gold": "गए",
+        "top1": false,
+        "topk": false,
+        "pred": "गये"
+      },
+      {
+        "roman": "nahi",
+        "gold": "नहीं",
+        "top1": false,
+        "topk": false,
+        "pred": "नही"
+      },
+      {
+        "roman": "batware",
+        "gold": "बंटवारे",
+        "top1": false,
+        "topk": false,
+        "pred": "बटवारे"
+      },
+      {
+        "roman": "lucknow",
+        "gold": "लखनऊ",
+        "top1": false,
+        "topk": false,
+        "pred": "लकनो"
+      },
+      {
+        "roman": "badhai",
+        "gold": "बढ़ाई",
+        "top1": false,
+        "topk": false,
+        "pred": "बढाई"
+      },
+      {
+        "roman": "woh",
+        "gold": "वह",
+        "top1": false,
+        "topk": false,
+        "pred": "वोह"
+      }
+    ]
+  },
+  "resources": {
+    "fleet_rss_peak_mb": 3887.5,
+    "per_session_rss_peak_mb": {
+      "n": 16,
+      "p50": 244.38,
+      "p95": 245.83,
+      "p99": 245.89,
+      "max": 245.89,
+      "mean": 242.97
+    },
+    "per_session_cpu_pct_mean": {
+      "n": 16,
+      "p50": 43.97,
+      "p95": 55.63,
+      "p99": 59.72,
+      "max": 59.72,
+      "mean": 45.22
+    }
+  },
+  "config": {
+    "sessions": 16,
+    "central_url": "http://127.0.0.1:8701",
+    "fresh": false,
+    "rescore": "off",
+    "torch_threads": "default",
+    "dataset": "data/stress_roman_hi.tsv",
+    "sentences": 160,
+    "typists": 16,
+    "key_ms": 180.0,
+    "key_jitter_ms": 60.0,
+    "word_gap_ms": 250.0,
+    "host_cpus": 11
+  }
+}

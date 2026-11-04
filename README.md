@@ -9,7 +9,8 @@ registry that only distributes versioned packages. Decision history:
 |---|---|
 | [docs/FINAL_DESIGN.md](docs/FINAL_DESIGN.md) | Decisions: where it runs, how it is distributed, how we prove it |
 | [docs/HLD.md](docs/HLD.md) · [docs/LLD.md](docs/LLD.md) | Components and module contracts |
-| [docs/REPORT.md](docs/REPORT.md) | Assignment write-up (workload, choice, numbers, 10×) |
+| [docs/REPORT.md](docs/REPORT.md) | **Final report**: workload, options, what was built vs designed, benchmarks, stress tests, cost, future work |
+| [results/results_summary.md](results/results_summary.md) | Every measured number, by results file |
 | [docs/OPEN_QUESTIONS.md](docs/OPEN_QUESTIONS.md) | Open for interpretation + next steps |
 
 ```
@@ -41,8 +42,10 @@ registry that only distributes versioned packages. Decision history:
 │   ├── latency_baseline.py   # stock engine compute sweep
 │   ├── latency_http.py       # HTTP typing / burst harness
 │   ├── quality_dakshina.py   # exact-match quality gate
-│   └── cost_model.py         # $/mo and $/1k users
-├── data/                # checked-in Hindi sample + courtroom NE set
+│   ├── cost_model.py         # $/mo and $/1k users
+│   ├── wan_proxy.py          # courtroom link emulator in front of central
+│   └── fleet_stress.py       # N real local services + N typists, keystroke by keystroke
+├── data/                # checked-in Hindi sample, courtroom NE set, stress sentences
 ├── docs/                # design + report + open questions
 ├── results/             # committed baseline numbers + harness outputs
 ├── Makefile
@@ -131,6 +134,17 @@ make bench-http-selftest    # no model needed (fake engine over real HTTP)
 make bench-latency          # needs ML setup — stock compute p50/p95/p99
 make bench-quality          # needs ML setup — stock top-1 / top-k on data/dakshina_hi_sample.tsv
 ```
+
+Stress tests (need ML setup; central and the court-link emulator running):
+
+```bash
+make central                # terminal 1: registry on :8700
+make wan-proxy              # terminal 2: court link on :8701 (60 ms RTT, 100 Mbps shared)
+make bench-fleet            # 16 fresh local services over the link, then 16 typists
+```
+
+The full list of stress runs, their commands, and their results is in
+[results/results_summary.md](results/results_summary.md#fleet-stress).
 
 Against a live local service (after `make local` is warm):
 

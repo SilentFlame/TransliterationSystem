@@ -1,0 +1,279 @@
+{
+  "label": "solo baseline: 1 session types all 160 sentences back-to-back, torch threads=1",
+  "started_at": "2026-11-03T21:37:57+0530",
+  "cold_start": {
+    "fleet_ready_s": 2.66,
+    "ready_s": {
+      "n": 1,
+      "p50": 2.66,
+      "p95": 2.66,
+      "p99": 2.66,
+      "max": 2.66,
+      "mean": 2.66
+    },
+    "ttfs_ms": {
+      "n": 1,
+      "p50": 2255.0,
+      "p95": 2255.0,
+      "p99": 2255.0,
+      "max": 2255.0,
+      "mean": 2255.0
+    },
+    "download_ms": {
+      "n": 0
+    },
+    "engine_load_ms": {
+      "n": 1,
+      "p50": 2251.4,
+      "p95": 2251.4,
+      "p99": 2251.4,
+      "max": 2251.4,
+      "mean": 2251.4
+    },
+    "ttfs_sources": [
+      "local_cache"
+    ],
+    "resumed_downloads_total": 0,
+    "central_offline_events_total": 0,
+    "per_session": [
+      {
+        "session": 0,
+        "ready_s": 2.66,
+        "ttfs_ms": 2255.0,
+        "ttfs_source": "local_cache",
+        "download_ms": null,
+        "engine_load_ms": 2251.4,
+        "resumed_downloads": 0,
+        "central_offline_events": 0
+      }
+    ]
+  },
+  "typing": {
+    "typists": 1,
+    "keystrokes": 4045,
+    "failures": 0,
+    "wall_s": 28.4,
+    "aggregate_lookups_per_s": 142.5,
+    "cache_hit_rate": 0.6675,
+    "client_ms": {
+      "n": 4045,
+      "p50": 1.43,
+      "p95": 20.95,
+      "p99": 25.99,
+      "max": 48.2,
+      "mean": 6.62
+    },
+    "client_ms_after_first_key": {
+      "n": 4044,
+      "p50": 1.43,
+      "p95": 20.95,
+      "p99": 25.99,
+      "max": 48.2,
+      "mean": 6.61
+    },
+    "first_key_ms": {
+      "n": 1,
+      "p50": 27.63,
+      "p95": 27.63,
+      "p99": 27.63,
+      "max": 27.63,
+      "mean": 27.63
+    },
+    "client_ms_cache_miss": {
+      "n": 1345,
+      "p50": 16.29,
+      "p95": 23.83,
+      "p99": 29.93,
+      "max": 48.2,
+      "mean": 17.21
+    },
+    "server_ms": {
+      "n": 4045,
+      "p50": 0.03,
+      "p95": 19.01,
+      "p99": 23.91,
+      "max": 31.6,
+      "mean": 5.12
+    },
+    "compute_ms_cache_miss": {
+      "n": 1345,
+      "p50": 14.39,
+      "p95": 21.71,
+      "p99": 26.55,
+      "max": 31.55,
+      "mean": 15.29
+    },
+    "share_over_50ms": 0.0,
+    "share_over_100ms": 0.0,
+    "words": 902,
+    "word_top1": 0.8248,
+    "word_top4": 0.9812,
+    "per_session": [
+      {
+        "session": 0,
+        "keystrokes": 4045,
+        "words": 902,
+        "client_p50_ms": 1.43,
+        "client_p95_ms": 20.95,
+        "client_max_ms": 48.2,
+        "first_key_ms": 27.63,
+        "keys_per_s": 142.54,
+        "word_top1": 0.8248
+      }
+    ],
+    "miss_sample": [
+      {
+        "roman": "maa",
+        "gold": "मां",
+        "top1": false,
+        "topk": false,
+        "pred": "मा"
+      },
+      {
+        "roman": "gaye",
+        "gold": "गए",
+        "top1": false,
+        "topk": false,
+        "pred": "गये"
+      },
+      {
+        "roman": "kiraayedar",
+        "gold": "किरायेदार",
+        "top1": false,
+        "topk": false,
+        "pred": "किराएदार"
+      },
+      {
+        "roman": "nahi",
+        "gold": "नहीं",
+        "top1": false,
+        "topk": false,
+        "pred": "नही"
+      },
+      {
+        "roman": "nahi",
+        "gold": "नहीं",
+        "top1": false,
+        "topk": false,
+        "pred": "नही"
+      },
+      {
+        "roman": "nahi",
+        "gold": "नहीं",
+        "top1": false,
+        "topk": false,
+        "pred": "नही"
+      },
+      {
+        "roman": "nahi",
+        "gold": "नहीं",
+        "top1": false,
+        "topk": false,
+        "pred": "नही"
+      },
+      {
+        "roman": "gaye",
+        "gold": "गए",
+        "top1": false,
+        "topk": false,
+        "pred": "गये"
+      },
+      {
+        "roman": "lucknow",
+        "gold": "लखनऊ",
+        "top1": false,
+        "topk": false,
+        "pred": "लकनो"
+      },
+      {
+        "roman": "nahi",
+        "gold": "नहीं",
+        "top1": false,
+        "topk": false,
+        "pred": "नही"
+      },
+      {
+        "roman": "rasta",
+        "gold": "रास्ता",
+        "top1": false,
+        "topk": false,
+        "pred": "रस्ता"
+      },
+      {
+        "roman": "badhai",
+        "gold": "बढ़ाई",
+        "top1": false,
+        "topk": false,
+        "pred": "बढाई"
+      },
+      {
+        "roman": "chai",
+        "gold": "चाय",
+        "top1": false,
+        "topk": false,
+        "pred": "चाई"
+      },
+      {
+        "roman": "batware",
+        "gold": "बंटवारे",
+        "top1": false,
+        "topk": false,
+        "pred": "बटवारे"
+      },
+      {
+        "roman": "maa",
+        "gold": "मां",
+        "top1": false,
+        "topk": false,
+        "pred": "मा"
+      },
+      {
+        "roman": "delhi",
+        "gold": "दिल्ली",
+        "top1": false,
+        "topk": false,
+        "pred": "देल्ही"
+      },
+      {
+        "roman": "woh",
+        "gold": "वह",
+        "top1": false,
+        "topk": false,
+        "pred": "वोह"
+      }
+    ]
+  },
+  "resources": {
+    "fleet_rss_peak_mb": 481.8,
+    "per_session_rss_peak_mb": {
+      "n": 1,
+      "p50": 481.8,
+      "p95": 481.8,
+      "p99": 481.8,
+      "max": 481.8,
+      "mean": 481.8
+    },
+    "per_session_cpu_pct_mean": {
+      "n": 1,
+      "p50": 6.37,
+      "p95": 6.37,
+      "p99": 6.37,
+      "max": 6.37,
+      "mean": 6.37
+    }
+  },
+  "config": {
+    "sessions": 1,
+    "central_url": "http://127.0.0.1:8701",
+    "fresh": false,
+    "rescore": "off",
+    "torch_threads": 1,
+    "dataset": "data/stress_roman_hi.tsv",
+    "sentences": 160,
+    "typists": 1,
+    "key_ms": 0.0,
+    "key_jitter_ms": 60.0,
+    "word_gap_ms": 0.0,
+    "host_cpus": 11
+  }
+}

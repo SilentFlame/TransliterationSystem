@@ -2,7 +2,7 @@
 
 **One line:** run IndicXlit *on the typist's machine* for every keystroke (**Tier A**); keep a **court LAN node** as package mirror and weak-PC fallback (**Tier B**); use the central service only to **distribute versioned model packages** — base weights first, rescore dictionary as a background upgrade.
 
-Related: [final design decisions](FINAL_DESIGN.md) · [LLD](LLD.md) · [decision log](../IterativeIdeation.md) · [README](../README.md)
+Related: [final design decisions](DESIGN.md) · [LLD](LLD.md) · [decision log](../IterativeIdeation.md) · [README](../README.md)
 
 Status legend: **[built]** works today · **[planned]** designed, not yet implemented.
 
@@ -188,7 +188,7 @@ flowchart TD
   RESC -- no --> BASE[base only]
 ```
 
-Thresholds above are the **starting proposal**; the real values come from benchmarking actual court hardware (see [FINAL_DESIGN §5.2](FINAL_DESIGN.md#52-latency-and-load)).
+Thresholds above are the **starting proposal**; the real values come from benchmarking actual court hardware (see [DESIGN §5.2](DESIGN.md#52-latency-and-load)).
 
 **At runtime**, the editor walks a fixed chain:
 
@@ -221,7 +221,7 @@ This is the core argument for Tier A as default: the only failures that take it 
 | p95 < 100 ms | Local engine + prefix cache, no WAN on hot path | 15–30 ms per keystroke measured; cached 0.06 ms. **Still to prove on the weakest supported PC.** |
 | Flaky links | Offline-first boot, resumable + verified downloads, backoff | Central killed → suggestions continue; tests cover resume + corruption |
 | Scale (500 concurrent) | Compute scales with the typists' own CPUs; central handles only polls + downloads | 500 clients × 1 poll/min ≈ 8 req/s of 304s |
-| Cost | Central ≈ 1 small VM + storage/CDN egress; C4.1 mirror cuts egress per court | ~$240/mo direct vs ~$40/mo with mirrors (estimates, [FINAL_DESIGN §5.3](FINAL_DESIGN.md#53-cost-model)) |
+| Cost | Central ≈ 1 small VM + storage/CDN egress; C4.1 mirror cuts egress per court | ~$240/mo direct vs ~$40/mo with mirrors (estimates, [DESIGN §5.3](DESIGN.md#53-cost-model)) |
 | Quality | Identical stock weights/decoding; rescore delivered as an upgrade | `results/quality_dakshina.json`: packaged base ≡ stock (sample top-1 78.77%); rescore top-1 86.91%. Official Dakshina split still open. |
 | Mixed hardware | Hardware gate assigns Tier A or Tier B per machine | [planned] |
 | Observability | JSON logs on both sides; heartbeats with version/tier/p95 | `logs/local_client.log`, `logs/central_server.log` |
@@ -240,7 +240,7 @@ This is the core argument for Tier A as default: the only failures that take it 
 | **Model download on user login** | A login at hearing time cannot absorb 138 MB. Moved to machine provisioning + background update. |
 | Rescore required at boot | Blocks the first suggestion behind a 358 MB download and ~1.7 GB RSS; fragile on slow links. |
 
-Full reasoning, including what each alternative would have cost us: [FINAL_DESIGN §6](FINAL_DESIGN.md#6-alternatives-considered-and-rejected).
+Full reasoning, including what each alternative would have cost us: [DESIGN §6](DESIGN.md#6-alternatives-considered-and-rejected).
 
 ---
 

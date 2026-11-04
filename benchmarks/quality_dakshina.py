@@ -6,7 +6,7 @@ Arms (any subset):
   * base    — packaged engine from a local store version (rescore=False)
   * rescore — packaged engine with the Hindi dict loaded
 
-Pass criteria (see docs/FINAL_DESIGN.md §5.1):
+Pass criteria (see docs/DESIGN.md §5.1):
   1. packaged base ≡ stock on the same inputs (candidate lists identical)
   2. absolute top-1 is a reference point (published Hindi Dakshina ≈ 60.56);
      our sample may differ — the gate is the delta, not the absolute

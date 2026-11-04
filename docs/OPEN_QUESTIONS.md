@@ -1,6 +1,6 @@
 # Open questions, interpretations, and next steps
 
-Companion to [FINAL_DESIGN.md](FINAL_DESIGN.md). Things we deliberately left
+Companion to [DESIGN.md](DESIGN.md). Things we deliberately left
 open, contested, or sequenced after the prototype — plus what we would do next
 with more time. Useful for discussion with reviewers and for a pilot team.
 
@@ -35,7 +35,7 @@ that contention; one thread per process fixes it.
 
 ### 1.2 Hardware gate thresholds
 
-**Open — needs court PC data.** Starting proposal from FINAL_DESIGN:
+**Open — needs court PC data.** Starting proposal from DESIGN:
 
 * RAM ≥ ~1 GB free for `base`; ≥ ~2.5 GB before `rescore` (`--rescore auto` already gates on total RAM ≥ 4 GB).
 * Install-time microbench: p95 compute ≤ ~60 ms on a fixed word list.
@@ -102,7 +102,7 @@ cost) is the claim; the exact dollars are not.
 
 ## 2. Next steps (priority order)
 
-From FINAL_DESIGN §7, refined after this shippable pass:
+From DESIGN §7, refined after this shippable pass:
 
 | # | Work | Why |
 |---|---|---|

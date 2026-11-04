@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Cost model for the courtroom transliteration runtime (FINAL_DESIGN §5.3).
+"""Cost model for the courtroom transliteration runtime (DESIGN §5.3).
 
 Central cost is storage + egress + one small VM and is independent of keystroke
 volume. Egress dominates; the court mirror is the lever.

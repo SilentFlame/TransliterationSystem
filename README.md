@@ -7,7 +7,7 @@ registry that only distributes versioned packages. Decision history:
 
 | Doc | What it is |
 |---|---|
-| [docs/FINAL_DESIGN.md](docs/FINAL_DESIGN.md) | Decisions: where it runs, how it is distributed, how we prove it |
+| [docs/DESIGN.md](docs/DESIGN.md) | Decisions: where it runs, how it is distributed, how we prove it |
 | [docs/HLD.md](docs/HLD.md) · [docs/LLD.md](docs/LLD.md) | Components and module contracts |
 | [docs/REPORT.md](docs/REPORT.md) | **Final report**: workload, options, what was built vs designed, benchmarks, stress tests, cost, future work |
 | [results/results_summary.md](results/results_summary.md) | Every measured number, by results file |
@@ -197,4 +197,4 @@ These are **fast-hardware** numbers. A 3–5× slower court PC is why the design
 
 ## Intentionally not in this prototype
 
-Signed manifests, cohort rollouts, court LAN mirror implementation, multi-worker Tier B, TLS/authN for non-localhost. Designed and sequenced in FINAL_DESIGN / OPEN_QUESTIONS; not required to demonstrate the runtime choice.
+Signed manifests, cohort rollouts, court LAN mirror implementation, multi-worker Tier B, TLS/authN for non-localhost. Designed and sequenced in DESIGN / OPEN_QUESTIONS; not required to demonstrate the runtime choice.

@@ -15,7 +15,7 @@ per process removed every lookup over 100 ms.
 
 | Read next | For |
 |---|---|
-| [FINAL_DESIGN.md](FINAL_DESIGN.md) | Full decision record |
+| [DESIGN.md](DESIGN.md) | Full decision record |
 | [HLD.md](HLD.md) · [LLD.md](LLD.md) | Components and module contracts |
 | [../results/results_summary.md](../results/results_summary.md) | Every measured number, by file |
 | [OPEN_QUESTIONS.md](OPEN_QUESTIONS.md) | Open interpretations and next steps |

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """HTTP latency / typing-load harness against a Local Xlit Service.
 
-Records three layers per request (FINAL_DESIGN §5.2):
+Records three layers per request (DESIGN §5.2):
   * client_ms  — harness stopwatch (what the typist feels)
   * server_ms  — from the JSON response
   * compute_ms — from the JSON response

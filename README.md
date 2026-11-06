@@ -26,6 +26,83 @@ registry that only distributes versioned packages. Decision history:
 2. **Design scenarios covered by tests** — bootstrap → rescore stage/promote; new version with local dedupe + prune; offline boot; Range resume + integrity reject; API validation.
 3. **Assignment harnesses** — quality gate (exact-match top-k), HTTP typing/load harness (3 latency layers), cost model with explicit assumptions.
 4. **Privacy-safe logs by default** — roman text / chosen candidates are not written at INFO unless you pass `--log-content`.
+5. **Container images** — an offline typist image, and a central registry plus a local image that downloads from it. Published for `linux/amd64` and `linux/arm64`.
+
+---
+
+## Run with Docker
+
+No Python install on the machine. The Hindi **base** package (~138 MB) is inside the images; rescore is off, so a container stays near 0.5 GB RAM. Needs Docker and a free host port (examples use 8765 and 8700).
+
+Images: `ghcr.io/silentflame/transliterationsystem` with tags `offline`, `central`, `local`.
+
+### Offline typist
+
+The model is already in the image. Central stays offline; suggestions come from that copy.
+
+```bash
+docker pull ghcr.io/silentflame/transliterationsystem:offline
+docker run --rm -p 8765:8765 ghcr.io/silentflame/transliterationsystem:offline
+```
+
+Open **http://localhost:8765/** and type `adalat` → अदालत.
+
+```bash
+curl -s localhost:8765/healthz
+curl -s 'localhost:8765/v1/suggest?q=adalat&k=4'
+```
+
+### Central registry + a fresh local session
+
+Central serves the published package. Local starts with an empty store, downloads base, loads the engine, then the editor works. This is the bootstrap a new typist PC does.
+
+```bash
+docker network create xlit
+docker pull ghcr.io/silentflame/transliterationsystem:central
+docker pull ghcr.io/silentflame/transliterationsystem:local
+
+docker run -d --name xlit-central --network xlit -p 8700:8700 \
+  ghcr.io/silentflame/transliterationsystem:central
+
+docker run -d --name xlit-local --network xlit -p 8765:8765 \
+  -e XLIT_CENTRAL_URL=http://xlit-central:8700 \
+  ghcr.io/silentflame/transliterationsystem:local
+```
+
+```bash
+docker logs -f xlit-local
+# package_download_started → package_ready → engine_promoted → time_to_first_suggestion
+curl -s localhost:8700/healthz
+curl -s localhost:8700/v1/models/hi/latest
+curl -s 'localhost:8765/v1/suggest?q=nyayalay&k=4'
+```
+
+First start is a few seconds plus the 138 MB download. Stop `xlit-central` and the editor keeps working from the local store. A second `docker start xlit-local` does not download again (the container keeps its store). `docker rm` throws that store away.
+
+```bash
+docker rm -f xlit-local xlit-central
+docker network rm xlit
+```
+
+If `docker pull` is denied, the package is still private. Open
+[package settings](https://github.com/users/SilentFlame/packages/container/transliterationsystem/settings)
+→ **Change visibility** → **Public**. Repo:
+[SilentFlame/TransliterationSystem](https://github.com/SilentFlame/TransliterationSystem).
+
+Torch uses 2 threads inside the container (`OMP_NUM_THREADS`). On a small VM, `-e OMP_NUM_THREADS=1` is the better default.
+
+### Build the images yourself
+
+From a clone that already has `var/registry` (`make warm-model && make publish`):
+
+```bash
+make docker-build       # offline, central, local — this machine's architecture
+make docker-run         # offline image on :8765
+make docker-stack-up    # central + local via docker compose (download, then serve)
+make docker-push        # linux/amd64 + linux/arm64 to GHCR; needs `docker login ghcr.io`
+```
+
+`make docker-build` stages model bytes into `docker/preloaded_registry` and `docker/preloaded_store`. Those directories are gitignored. `DOCKER_RESCORE=1 make docker-build` also bakes in the rescore package (~358 MB more, ~1.7 GB RAM when loaded). If the build machine is behind TLS inspection, put the exported CA files in `docker/certs/` before building.
 
 ---
 
@@ -48,6 +125,9 @@ registry that only distributes versioned packages. Decision history:
 ├── data/                # checked-in Hindi sample, courtroom NE set, stress sentences
 ├── docs/                # design + report + open questions
 ├── results/             # committed baseline numbers + harness outputs
+├── Dockerfile           # offline, central and local images (one file, three targets)
+├── docker-compose.yml   # central + a local service that downloads, then serves
+├── scripts/prepare_docker_assets.py   # stage var/registry into the image build
 ├── Makefile
 ├── requirements-runtime.txt   # Flask/requests — enough for tests + cost + HTTP self-test
 └── requirements-ml.txt        # IndicXlit + torch freeze; `make setup` installs it with --no-deps

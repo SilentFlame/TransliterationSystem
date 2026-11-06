@@ -9,3 +9,9 @@ logs/
 *.bak
 .pytest_cache/
 .mypy_cache/
+# Model bytes staged for docker builds (make docker-assets regenerates them)
+docker/preloaded_registry/
+docker/preloaded_store/
+# Host-exported corporate CAs, only needed to build behind TLS inspection
+docker/certs/*
+!docker/certs/.gitkeep

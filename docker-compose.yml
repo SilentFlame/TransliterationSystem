@@ -1,0 +1,37 @@
+# Download-then-serve: central holds the package, local starts empty, pulls base,
+# loads the engine, then the editor works.
+#
+#   make docker-stack-up
+#   open http://localhost:${XLIT_LOCAL_PORT:-8765}/
+#   curl http://localhost:${XLIT_CENTRAL_PORT:-8700}/v1/models/hi/latest
+#
+# Local logs show package_download_* -> package_ready -> engine_promoted.
+# `make docker-stack-down` removes the volume so the next `up` downloads again.
+
+services:
+  central:
+    image: ${XLIT_IMAGE:-transliteration-system}:central
+    build:
+      context: .
+      target: central
+    ports:
+      - "${XLIT_CENTRAL_PORT:-8700}:8700"
+
+  local:
+    image: ${XLIT_IMAGE:-transliteration-system}:local
+    build:
+      context: .
+      target: local
+    environment:
+      XLIT_CENTRAL_URL: http://central:8700
+      XLIT_RESCORE: ${XLIT_RESCORE:-off}
+    ports:
+      - "${XLIT_LOCAL_PORT:-8765}:8765"
+    depends_on:
+      central:
+        condition: service_healthy
+    volumes:
+      - local_store:/app/var/local_store
+
+volumes:
+  local_store:

@@ -8,8 +8,15 @@ CENTRAL_PORT ?= 8700
 LOCAL_PORT ?= 8765
 export PYTHONPATH := $(CURDIR)
 
+IMAGE ?= transliteration-system
+REGISTRY_IMAGE ?= ghcr.io/silentflame/transliterationsystem
+PLATFORMS ?= linux/amd64,linux/arm64
+DOCKER_LOCAL_PORT ?= 8765
+DOCKER_CENTRAL_PORT ?= 8700
+
 .PHONY: help setup setup-runtime warm-model publish central local test wan-proxy \
-        bench-cost bench-http-selftest bench-latency bench-quality bench-fleet logs clean demo-check
+        bench-cost bench-http-selftest bench-latency bench-quality bench-fleet logs clean demo-check \
+        docker-assets docker-build docker-run docker-stack-up docker-stack-down docker-push
 
 help: ## show targets
 	@grep -E '^[a-zA-Z_-]+:.*?##' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  %-22s %s\n", $$1, $$2}'
@@ -59,6 +66,29 @@ bench-fleet: ## 16 fresh sessions through wan-proxy + 16 typists (needs central 
 
 demo-check: test bench-cost bench-http-selftest ## everything that runs without the model
 	@echo "demo-check OK"
+
+docker-assets: ## stage model bytes from var/registry into docker/preloaded_* (DOCKER_RESCORE=1 adds rescore)
+	$(PY) scripts/prepare_docker_assets.py $(if $(DOCKER_RESCORE),--with-rescore)
+
+docker-build: docker-assets ## build offline, central and local images for this machine's arch
+	for t in offline central local; do \
+		docker build --target $$t -t $(IMAGE):$$t . || exit 1; \
+	done
+
+docker-run: ## offline image (model baked in) on http://localhost:$(DOCKER_LOCAL_PORT)/
+	docker run --rm --name xlit-offline -p $(DOCKER_LOCAL_PORT):8765 $(IMAGE):offline
+
+docker-stack-up: ## central + local that downloads then serves (docker compose)
+	XLIT_IMAGE=$(IMAGE) XLIT_LOCAL_PORT=$(DOCKER_LOCAL_PORT) XLIT_CENTRAL_PORT=$(DOCKER_CENTRAL_PORT) \
+		docker compose up
+
+docker-stack-down: ## stop compose stack and drop the download volume
+	XLIT_IMAGE=$(IMAGE) docker compose down -v
+
+docker-push: docker-assets ## multi-arch (amd64+arm64) build + push to $(REGISTRY_IMAGE):{offline,central,local}
+	for t in offline central local; do \
+		docker buildx build --platform $(PLATFORMS) --target $$t -t $(REGISTRY_IMAGE):$$t --push . || exit 1; \
+	done
 
 logs: ## follow JSON logs
 	tail -F logs/central_server.log logs/local_client.log

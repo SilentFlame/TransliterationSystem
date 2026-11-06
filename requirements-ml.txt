@@ -31,6 +31,15 @@ Cython==3.3.0
 bitarray==3.12.3
 regex==2026.9.29
 sympy==1.13.1
+mpmath==1.3.0
+ujson==6.0.0
+sacrebleu==2.6.0
+portalocker==4.4.2
+tabulate==0.10.0
+colorama==0.4.6
+lxml==6.1.3
+progressbar2==4.6.0
+python-utils==4.1.4
 typing_extensions==4.16.0
 filelock==4.1.0
 fsspec==2026.9.0

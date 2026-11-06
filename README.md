@@ -84,12 +84,33 @@ docker rm -f xlit-local xlit-central
 docker network rm xlit
 ```
 
+Torch uses 2 threads inside the container (`OMP_NUM_THREADS`). On a small VM, `-e OMP_NUM_THREADS=1` is the better default.
+
+### If `docker run` cannot connect to `docker.sock`
+
+`docker pull` can succeed and the very next `docker run` can still fail with:
+
+```text
+Cannot connect to the Docker daemon at unix:///Users/<you>/.colima/default/docker.sock.
+Is the docker daemon running?
+```
+
+That is the machine's Docker engine, not this image. The pull only proves the tag exists in the registry. `docker run` needs a live engine, and the socket file can still be on disk after the engine has stopped answering.
+
+On a Mac using Colima, the VM can still be up while the tunnel that publishes `~/.colima/default/docker.sock` has died. `colima status` hangs in that state. Restart Colima, then run the container again:
+
+```bash
+colima stop          # if this hangs: colima stop -f
+colima start
+docker run --rm -p 8765:8765 ghcr.io/silentflame/transliterationsystem:offline
+```
+
+Docker Desktop: open Docker Desktop, wait until it says the engine is running, then retry the same `docker run`. On a Linux VM where Docker is a system service: `sudo systemctl start docker`. If the error is "permission denied" rather than "cannot connect", add your user to the `docker` group and open a new shell, or run with `sudo`.
+
 If `docker pull` is denied, the package is still private. Open
 [package settings](https://github.com/users/SilentFlame/packages/container/transliterationsystem/settings)
 → **Change visibility** → **Public**. Repo:
 [SilentFlame/TransliterationSystem](https://github.com/SilentFlame/TransliterationSystem).
-
-Torch uses 2 threads inside the container (`OMP_NUM_THREADS`). On a small VM, `-e OMP_NUM_THREADS=1` is the better default.
 
 ### Build the images yourself
 
@@ -194,10 +215,12 @@ Status bar: active version/tier, staged upgrade, central state, download progres
 **Progressive upgrade** — empty store (`rm -rf var/local_store`), start local, watch logs for `package_download_*` → `engine_promoted reason=first_engine` → `engine_staged` (rescore) → `engine_promoted reason=commit|word_start|idle`.
 
 **New version rollout**
+
 ```bash
 python -m xlit.central.publish --version hi-1.0.1
 curl -X POST localhost:8765/v1/sync
 ```
+
 Unchanged files hard-link locally (`file_reused_locally`); new engine stages, promotes at a word boundary; old version pruned.
 
 **Courtroom link drop** — stop central. Status → `central: offline`; suggestions keep working. Restart central → `central_online`.

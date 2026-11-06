@@ -31,7 +31,8 @@ and were not repeated. On **6 November 2026** the suite was re-run: 29 unit test
 the cost model (unchanged), the HTTP harness self-test, and every stress scenario in section 8.
 Section 8 quotes the 6 November run. The laptop was not idle that morning (another process was
 already bound to port 8700), so cold-start and tail numbers are a little slower than on 3 November.
-The direction of every result is the same.
+The direction of every result is the same. Later the same day the three container images were
+built, run on this machine, and pushed to GHCR (section 4, section 13).
 
 ---
 
@@ -134,6 +135,17 @@ Three running components and their tests, all in this repository.
 | `benchmarks/cost_model.py` | Monthly cost and cost per 1,000 users, with assumptions in the output |
 | `benchmarks/wan_proxy.py` | A courtroom WAN link between services and central: delay, jitter, shared bandwidth, drops, and a kill switch |
 | `benchmarks/fleet_stress.py` | N real services started at once, then N typists replaying sentences keystroke by keystroke |
+
+**Container images (6 November, afternoon).** One Dockerfile builds three images, published for
+`linux/amd64` and `linux/arm64` as `ghcr.io/silentflame/transliterationsystem:{offline,central,local}`.
+`offline` has the Hindi base package inside and boots with central unreachable. `central` is the
+registry with `hi-1.0.0` baked in. `local` starts empty, downloads base, then serves. Rescore is
+off, so a container stays near 0.5 GB. On this Mac the offline image was healthy in 3–5 s
+(~450 MB) and returned the same Hindi candidates as the native service; the compose stack
+downloaded 138 MB from central in ~230 ms and served its first suggestion in ~2.5 s; stopping
+central and restarting local served from the saved store in 3 s. The amd64 image, run under
+emulation, returned the same candidates. Commands are in the README. The GHCR package is still
+private: a clean machine needs a one-time visibility change or `docker login ghcr.io`.
 
 ---
 
@@ -374,7 +386,7 @@ says they are needed.
 | 4 | Build the court mirror and stagger rollouts | Turns the 3-minute shared-uplink install into one download per court; $237 → $39/month |
 | 5 | Signed packages, staged rollout, automatic rollback from heartbeats | Release safety at fleet scale |
 | 6 | Court fallback server: several workers, TLS and login, editor failover | For weak PCs and courts that forbid local installs |
-| 7 | Replace the `--no-deps` ML install with a clean lock file; add a container image | So a reviewer can stand it up without dependency workarounds |
+| 7 | Make the GHCR package public, and give `make setup` the CPU torch wheel on x86 | The images are published but still private. A CPU-only x86 VM that installs from `requirements-ml.txt` directly still gets the CUDA torch wheel; the Dockerfile already avoids that |
 | 8 | Beam 2, ONNX, or int8 only if weak PCs miss the bar | Each must pass the quality gate again |
 | 9 | More languages; metrics export; installer for non-technical setup | Product completeness |
 
@@ -401,6 +413,10 @@ make bench-cost
 # Stress tests (central running; court link on :8701)
 make wan-proxy
 make bench-fleet             # 16 fresh sessions over the court link + 16 typists
+
+# No Python install: published images (package is private until its visibility is changed)
+docker pull ghcr.io/silentflame/transliterationsystem:offline
+docker run --rm -p 8765:8765 ghcr.io/silentflame/transliterationsystem:offline
 ```
 
 The exact command for each stress result file is listed in
@@ -408,24 +424,26 @@ The exact command for each stress result file is listed in
 
 ---
 
-## 13. Assignment coverage (checked 6 November 2026)
+## 13. Assignment coverage (checked again 6 November 2026, after the images)
+
+Twelve asks, scored from the table below. **10 are done and 2 are partial. Counting a partial as half, that is 11 / 12 ≈ 92%.** The suggested demo (a container, a deployed endpoint, or a hosted browser demo) is met by the images and the walkthrough video. The remaining 8% is the unrun official Dakshina split, and load measured at 16 sessions rather than 500 machines. Neither changes the runtime choice.
 
 | Assignment ask | Status |
 |---|---|
 | Characterize the workload and the 100 ms budget | Done. Section 1. |
 | Choose where it runs, against the alternatives | Done. Sections 2–3 and [DESIGN.md](DESIGN.md). |
 | Working prototype, ranked suggestions end to end | Done. Editor, local service, central registry. 29 tests passed on 6 Nov. |
-| Reproducible setup and benchmark replay | Done, with a caveat: `make setup` needs Python 3.10, `pip<24.1`, and `--no-deps`. |
+| Reproducible setup and benchmark replay | Done. `make setup` still needs Python 3.10, `pip<24.1`, and `--no-deps`. The images are the path that does not need that: built and run here, pushed for amd64 and arm64. A `docker pull` of `:offline` on this Mac succeeded; the following `docker run` failed because Colima's socket was down, which is the host engine, not the image. |
 | Latency percentiles per lookup | Done. One typist (3 Nov) and 16 typists (6 Nov). |
-| Cold start and time to first suggestion | Done. Section 8, re-measured 6 Nov. |
-| Resource use | Done for the stress runs (RSS and CPU in the JSON). |
-| Throughput / concurrency at the stated scale | Partial. 16 real services on one laptop, about 59 lookups/s. Not 500 independent PCs, and not a saturation curve. The design treats 500 concurrent as 500 machines. |
+| Cold start and time to first suggestion | Done. Section 8, re-measured 6 Nov. Inside the image: offline ready in 3–5 s; a fresh local session's first suggestion ~2.5 s after central answered. |
+| Resource use | Done for the stress runs (RSS and CPU in the JSON). The offline container sat near 450 MB. |
+| Throughput / concurrency, load-tested rather than one call | Partial. 16 real services on one laptop over a simulated court link, about 59 lookups/s. Not 500 independent PCs, and not a saturation curve. The design treats 500 concurrent as 500 machines. |
 | Cost model with stated assumptions | Done. Re-checked 6 Nov: $237/month for what ships, $39/month with the unbuilt court mirror. |
 | Quality against the known baseline | Partial. Packaged base matches stock on a 405-word sample (3 Nov). The official Dakshina Hindi top-1 of 60.56 has not been run. Running text on 902 words is 82.48% top-1 (6 Nov). |
 | What breaks at 10×, and what was traded away | Done. Section 10. |
-| Hosted demo, container, or deployed endpoint | A captioned walkthrough is in [../docs/demo/courtroom-editor-demo.mp4](../docs/demo/courtroom-editor-demo.mp4) (6 Nov 2026, registry down, local package). A public URL and a container are still not done. |
+| Container, deployed endpoint, or hosted browser demo | Done as a container plus a video. Images: `ghcr.io/silentflame/transliterationsystem:{offline,central,local}`, both architectures. Walkthrough: [../docs/demo/courtroom-editor-demo.mp4](../docs/demo/courtroom-editor-demo.mp4). The package is still private, and there is no public URL. |
 
-Left for later, and called out as such: one torch thread as the service default, the official Dakshina split, a profile of real courtroom PCs, the court mirror, signed packages and staged rollout, the court fallback server (workers, TLS, editor failover), a clean install lock and a container, and languages beyond Hindi.
+Left for later, and called out as such: one torch thread as the service default, the official Dakshina split, a profile of real courtroom PCs, the court mirror, signed packages and staged rollout, the court fallback server (workers, TLS, editor failover), a public GHCR package and a CPU-only `make setup` on x86, and languages beyond Hindi.
 
 ---
 

@@ -10,8 +10,9 @@ keystroke, and use the cloud only to ship versioned model packages. On this MacB
 costs 15–40 ms of model time, and the internet is never on that path. When the court link goes
 down, suggestions keep working. Central's bill depends on releases, not keystrokes: about
 $237/month for what is built today, and about $39/month once each court mirrors the package. A
-16-typist stress test met the latency bar on a shared machine, and pinning PyTorch to one thread
-per process removed every lookup over 100 ms.
+16-typist stress test stays inside the latency bar for a typical keystroke on a shared machine.
+Pinning PyTorch to one thread per process roughly halves that tail. The lookups that still
+cross 100 ms are the first keystroke, when all 16 typists start together.
 
 | Read next | For |
 |---|---|
@@ -23,7 +24,14 @@ per process removed every lookup over 100 ms.
 | [../README.md](../README.md) | Setup and commands |
 
 All numbers below come from JSON files in `results/`, measured on an Apple M3 Pro (11 cores,
-18 GB RAM). They are fast-hardware numbers; section 9 covers what changes on a weak courtroom PC.
+18 GB RAM). They are fast-hardware numbers; section 10 covers what changes on a weak courtroom PC.
+
+**Dates.** Sections 6 and 7 (one engine, one typist, quality) were recorded on **3 November 2026**
+and were not repeated. On **6 November 2026** the suite was re-run: 29 unit tests (all passed),
+the cost model (unchanged), the HTTP harness self-test, and every stress scenario in section 8.
+Section 8 quotes the 6 November run. The laptop was not idle that morning (another process was
+already bound to port 8700), so cold-start and tail numbers are a little slower than on 3 November.
+The direction of every result is the same.
 
 ---
 
@@ -224,62 +232,70 @@ would accept (गये for गए, नही for नहीं, मा for म�
 All 16 copies share one laptop's 11 cores. That makes this a picture of a shared court
 computer, or of weak PCs. In the chosen design each typist has their own machine.
 
+Re-run **6 November 2026**, 11:23–11:32 IST. Registry on port 8710, court-link emulator on 8711
+(port 8700 was already in use). Zero failed lookups in every typing run. Word top-1 stayed
+**82.48%** and top-4 **98.12%** in every run.
+
 ### 8.2 Scenarios and results
 
 **Scenario A — first install, central reachable directly** (`stress_cold_direct.json`)
 
-All 16 were serving in **14.9 s**. Each engine took about 9.2 s to load, against 2.5 s when
-one loads alone: 16 loads at once on 11 cores cost about 3×.
+All 16 were serving in **21.0 s**. Each engine took about 14.1 s to load, against 3.0 s when
+one loads alone.
 
 **Scenario B — first install over the court link, then 16 typists** (`stress_fleet_cold_wan.json`)
 
-All 16 were serving in **187.5 s**. Sixteen copies of the 138 MB package (about 2.2 GB) had to
-cross one 100 Mbps link, so the download, not the model, was the wait. Five downloads were cut
-mid-transfer; all five resumed from where they stopped and finished within about 2 s of the
-others.
+All 16 were serving in **194 s**. Sixteen copies of the 138 MB package (about 2.2 GB) had to
+cross one 100 Mbps link, so the download, not the model, was the wait. Three downloads were cut
+mid-transfer; all three resumed and the fleet still finished together.
 
-Then 16 typists, 4,045 keystrokes, zero failures: client p50 **27.5 ms**, p95 **52.4 ms**,
-p99 **81.7 ms**, 0.64% of keystrokes over 100 ms, worst 198 ms.
+Then 16 typists, 4,045 keystrokes: client p50 **29.4 ms**, p95 **71.9 ms**, p99 **194 ms**,
+2.8% of keystrokes over 100 ms, worst 323 ms. This run started immediately after 16 engines
+had loaded at once, so the tail is the contended machine, not the link.
 
 **Scenario C — restart with the court link cut, then 16 typists** (`stress_fleet_warm_offline.json`)
 
-All 16 booted from their saved copies in **11.2 s** with central unreachable. Typing: p95
-54.8 ms, p99 83.6 ms, zero failures, the same as with the link up. The slowest keystrokes were
-each typist's first one, when all 16 hit the first letter together: 171 ms median. After the
-first key, p99 was 75.3 ms.
+All 16 booted from their saved copies in **11.6 s** with central unreachable (16 offline
+events, source `local_cache`). Typing: p50 29.4 ms, p95 **64.7 ms**, p99 110 ms, 1.5% over
+100 ms, worst 203 ms. The slow keystrokes are each typist's first one, when all 16 hit the
+first letter together: 149 ms median. After that first key, p99 is 102 ms.
 
 **Scenario D — same, one PyTorch thread per process** (`stress_fleet_warm_1thread.json`)
 
-By default each copy started about 11 worker threads on 11 cores, and 16 copies fought over
-the CPU. With one thread each:
+By default each copy starts about 11 worker threads on 11 cores, and 16 copies fight over the
+CPU. With one thread each, against the link-down run above:
 
-| | Default threads | One thread per process |
+| | Default threads (link down) | One thread per process |
 |---|---|---|
-| Client p50 | 27.8 ms | **15.2 ms** |
-| Client p95 | 54.8 ms | **25.8 ms** |
-| Client p99 | 83.6 ms | **35.5 ms** |
-| Worst keystroke | 194 ms | 88 ms |
-| Over 100 ms | 0.64% | **0%** |
-| First keystroke (median) | 171 ms | 70 ms |
-| Fleet ready after restart | 11.2 s | 8.8 s |
+| Client p50 | 29.4 ms | **16.1 ms** |
+| Client p95 | 64.7 ms | **29.2 ms** |
+| Client p99 | 110 ms | **53.3 ms** |
+| Worst keystroke | 203 ms | 273 ms |
+| Over 100 ms | 1.5% | **0.4%** |
+| First keystroke (median) | 149 ms | 204 ms |
+| After the first key, p99 | 102 ms | **43.6 ms** |
+| Fleet ready after restart | 11.6 s | 14.0 s |
 
 **Scenario E — one typist alone, default vs one thread** (`stress_solo_threads0/1.json`)
 
-One session typed all 160 sentences without pauses: client p95 22.0 ms (default) vs 21.0 ms
-(one thread). Model time on cache misses was 23.2 ms vs 21.7 ms p95. The default used about
-320% CPU against about 6% for one thread.
+One session typed all 160 sentences without pauses: client p95 **26.7 ms** (default) vs
+**21.5 ms** (one thread). Model time on cache misses was 30.6 ms vs 23.3 ms p95. The default
+used about 284% CPU against about 6% for one thread. With one thread the slowest keystroke
+was 52 ms.
 
 ### 8.3 What the stress tests show
 
-1. **The court link only matters for installs and updates.** Typing latency was the same with
-   the link up, slow, or cut.
-2. **A first install at hearing time is not viable over a shared uplink.** Three minutes for 16
-   PCs is the case for installing at machine setup and for the court mirror.
-3. **Flaky links are survivable.** Dropped downloads resumed without errors; a restart with no
-   internet worked.
-4. **On a shared computer, CPU contention is the risk, and it has a cheap fix.** One thread per
-   process halved p95, removed every lookup over 100 ms, and is no slower for a single typist.
-   The service does not set this yet; it is the first change in future work.
+1. **A dead link does not stop suggestions.** With central unreachable, all 16 sessions booted
+   from disk and served 4,045 keystrokes with zero failures.
+2. **A first install at hearing time is not viable over a shared uplink.** About 3.2 minutes
+   for 16 PCs is the case for installing at machine setup and for the court mirror.
+3. **Flaky links are survivable.** Three downloads were reset mid-transfer, all three resumed,
+   and no lookup failed.
+4. **On a shared computer, CPU contention is the risk, and one thread per process is the cheap
+   fix.** It cut p95 from 65 ms to 29 ms. It did not remove every lookup over 100 ms on this
+   re-run: 0.4% still crossed it, and those are the simultaneous first keystrokes. After the
+   first key, p99 is 44 ms. For one typist alone, one thread is as fast and uses far less CPU.
+   The service does not set this yet.
 5. **Load changes speed, not answers.** Word accuracy was identical in every run.
 
 ---
@@ -352,7 +368,7 @@ says they are needed.
 
 | # | Work | Why |
 |---|---|---|
-| 1 | Set one PyTorch thread per local service by default | Measured: halves p95 on shared machines, no cost on a single PC |
+| 1 | Set one PyTorch thread per local service by default | Re-measured 6 Nov: shared-machine p95 65 → 29 ms. The lookups still over 100 ms are the simultaneous first keystroke. No cost for one typist. |
 | 2 | Run the official Hindi Dakshina test list; block publishing when the package differs from stock | Puts our number next to 60.56 and makes quality a release gate |
 | 3 | Profile real courtroom PCs; set the hardware check thresholds | Decides how many PCs run locally and how many courts need a fallback server |
 | 4 | Build the court mirror and stagger rollouts | Turns the 3-minute shared-uplink install into one download per court; $237 → $39/month |
@@ -389,6 +405,27 @@ make bench-fleet             # 16 fresh sessions over the court link + 16 typist
 
 The exact command for each stress result file is listed in
 [results_summary.md](../results/results_summary.md#commands).
+
+---
+
+## 13. Assignment coverage (checked 6 November 2026)
+
+| Assignment ask | Status |
+|---|---|
+| Characterize the workload and the 100 ms budget | Done. Section 1. |
+| Choose where it runs, against the alternatives | Done. Sections 2–3 and [DESIGN.md](DESIGN.md). |
+| Working prototype, ranked suggestions end to end | Done. Editor, local service, central registry. 29 tests passed on 6 Nov. |
+| Reproducible setup and benchmark replay | Done, with a caveat: `make setup` needs Python 3.10, `pip<24.1`, and `--no-deps`. |
+| Latency percentiles per lookup | Done. One typist (3 Nov) and 16 typists (6 Nov). |
+| Cold start and time to first suggestion | Done. Section 8, re-measured 6 Nov. |
+| Resource use | Done for the stress runs (RSS and CPU in the JSON). |
+| Throughput / concurrency at the stated scale | Partial. 16 real services on one laptop, about 59 lookups/s. Not 500 independent PCs, and not a saturation curve. The design treats 500 concurrent as 500 machines. |
+| Cost model with stated assumptions | Done. Re-checked 6 Nov: $237/month for what ships, $39/month with the unbuilt court mirror. |
+| Quality against the known baseline | Partial. Packaged base matches stock on a 405-word sample (3 Nov). The official Dakshina Hindi top-1 of 60.56 has not been run. Running text on 902 words is 82.48% top-1 (6 Nov). |
+| What breaks at 10×, and what was traded away | Done. Section 10. |
+| Hosted demo, container, or deployed endpoint | A captioned walkthrough is in [../docs/demo/courtroom-editor-demo.mp4](../docs/demo/courtroom-editor-demo.mp4) (6 Nov 2026, registry down, local package). A public URL and a container are still not done. |
+
+Left for later, and called out as such: one torch thread as the service default, the official Dakshina split, a profile of real courtroom PCs, the court mirror, signed packages and staged rollout, the court fallback server (workers, TLS, editor failover), a clean install lock and a container, and languages beyond Hindi.
 
 ---
 

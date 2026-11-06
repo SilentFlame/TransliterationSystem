@@ -92,6 +92,8 @@ make local                  # terminal 2  → :8765
 
 Open **http://127.0.0.1:8765/**. Fresh machine: downloads **base**, serves suggestions, then downloads **rescore** in the background and swaps it in at the next word boundary. Later starts boot from `var/local_store` before contacting central (offline-capable).
 
+A 45-second walkthrough of that editor, with a caption on each shot for what is happening and what comes next, is in [docs/demo/courtroom-editor-demo.mp4](docs/demo/courtroom-editor-demo.mp4). It was recorded with the registry unreachable, so the suggestions come from the local package. Still frames are in [docs/demo/frames](docs/demo/frames).
+
 ### 3. Editor keys
 
 | Key | Action |

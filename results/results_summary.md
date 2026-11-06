@@ -56,7 +56,7 @@ Cold-cache transport p95 is 2.7 ms and queue p95 is 0.1 ms, so almost all of the
 
 ### Fake-engine self-test (`latency_http_selftest.json`)
 
-`self_test: true`. Same scenario shapes, compute is a stub. Cold-cache client p95 is **3.9 ms**. These numbers check the harness. They are not the latency bar, and they move slightly between machines.
+`self_test: true`. Same scenario shapes, compute is a stub. Re-run on 6 November 2026: cold-cache client p95 is **1.6 ms** (it was 3.9 ms on 3 November). These numbers check the harness. They are not the latency bar, and they move between runs.
 
 ---
 
@@ -82,36 +82,38 @@ Gate: `packaging_identical: true` (base candidate lists equal stock). `rescore_n
 
 All 16 engines share one laptop's cores, so this measures a court node with 16 typists, or 16 weak PCs. Tier A puts each engine on its own PC.
 
+Numbers below are the **6 November 2026** re-run (11:23–11:32 IST). The laptop was not idle. An earlier run on 3 November was faster in the tail; the direction of every result is the same.
+
 ### Cold start
 
 | Run | Fleet serving | Per-session first suggestion (p50) | Engine load (p50) |
 |---|---|---|---|
-| Fresh install, direct to central | 14.9 s | 13.7 s | 9.2 s |
-| **Fresh install, through the court link** | **187.5 s** | 185.1 s | 6.4 s |
-| Restart from local store, **link down** | 11.2 s | 10.2 s | 10.2 s |
-| Restart from local store, 1 torch thread | 8.8 s | 7.7 s | 7.7 s |
-| Single session restart (for scale) | 2.9 s | 2.5 s | 2.5 s |
+| Fresh install, direct to central | 21.0 s | 19.5 s | 14.1 s |
+| **Fresh install, through the court link** | **194 s** | 192 s | 12.2 s |
+| Restart from local store, **link down** | 11.6 s | 10.5 s | 10.5 s |
+| Restart from local store, 1 torch thread | 14.0 s | 12.3 s | 12.3 s |
+| Single session restart (for scale) | 3.4 s | 3.0 s | 3.0 s |
 
-Through the court link, 16 × 138.3 MB ≈ 2.2 GB has to cross a 100 Mbps uplink, so every session waits about three minutes. Download time dominates the cold start. Five downloads were reset mid-stream. All five resumed with HTTP Range, finished within about 2 s of the others, and had zero failed lookups afterward. With the link down, all 16 sessions booted from disk (`ttfs_source: local_cache`) and served normally.
+Through the court link, 16 × 138.3 MB ≈ 2.2 GB has to cross a 100 Mbps uplink, so every session waits about three minutes. Download time dominates the cold start. Three downloads were reset mid-stream. All three resumed with HTTP Range, and there were zero failed lookups afterward. With the link down, all 16 sessions booted from disk (`ttfs_source: local_cache`) and served normally.
 
 ### Typing (16 concurrent typists, 4,045 keystrokes per run)
 
 | Run | Client p50 | Client p95 | Client p99 | Max | > 100 ms | First keystroke p50 |
 |---|---|---|---|---|---|---|
-| After WAN install, default threads | 27.5 ms | 52.4 ms | 81.7 ms | 198.2 ms | 0.64% | not recorded |
-| Link down, default threads | 27.8 ms | 54.8 ms | 83.6 ms | 194.3 ms | 0.64% | 171.0 ms |
-| **Link up, 1 torch thread / process** | **15.2 ms** | **25.8 ms** | **35.5 ms** | 88.2 ms | **0%** | 70.4 ms |
+| After WAN install, default threads | 29.4 ms | 71.9 ms | 193.5 ms | 322.6 ms | 2.84% | 259.9 ms |
+| Link down, default threads | 29.4 ms | 64.7 ms | 110.4 ms | 202.6 ms | 1.53% | 149.4 ms |
+| **Link up, 1 torch thread / process** | **16.1 ms** | **29.2 ms** | **53.3 ms** | 272.7 ms | **0.40%** | 204.0 ms |
 
-Zero failed lookups in any run. Aggregate load is 59.6 lookups/s (~4 keys/s per typist), with a 29.8% prefix-cache hit rate. The link state makes no difference to keystroke latency. The tail comes from all 16 typists' first lookups landing on the same instant (171 ms median), which is the hearing-start burst. After the first key, p99 is 75.3 ms.
+Zero failed lookups in any run. Aggregate load is about 59 lookups/s (~4 keys/s per typist), with a 29.8% prefix-cache hit rate. The tail is the first keystroke, when all 16 typists start together. After that first key, p99 is 102 ms with default threads and 44 ms with one thread.
 
-The thread result is the main tuning finding. With PyTorch defaults, each of the 16 processes starts about 11 threads on 11 cores and they fight. One thread per process halves p95 and removes every lookup over 100 ms. On a single PC it is no slower (below), so a court node should pin it.
+One thread per process cuts p95 from 65 ms to 29 ms. On this re-run it did not remove every lookup over 100 ms: 0.4% still crossed it, and those are the simultaneous first keys. On a single PC it is no slower (below), so a court node should pin it.
 
 ### Solo baseline (1 session, all 160 sentences, no think time)
 
 | Torch threads | Client p95 | Client p99 | Max | Cache-miss compute p95 | CPU (ps mean) |
 |---|---|---|---|---|---|
-| default | 22.0 ms | 27.2 ms | 47.4 ms | 23.2 ms | 320% |
-| 1 | 21.0 ms | 26.0 ms | 48.2 ms | 21.7 ms | 6% |
+| default | 26.7 ms | 37.1 ms | 189.6 ms | 30.6 ms | 284% |
+| 1 | 21.5 ms | 26.7 ms | 52.4 ms | 23.3 ms | 6% |
 
 One cache covers every repeated word here, so 1,345 of 4,045 lookups miss (vs 2,840 across 16 separate caches). Compare cache-miss compute, not client p50.
 

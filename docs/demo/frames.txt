@@ -1,0 +1,15 @@
+file 'frames/01-title.png'
+duration 5
+file 'frames/02-ready.png'
+duration 5
+file 'frames/03-typing.png'
+duration 5
+file 'frames/04-commit.png'
+duration 5
+file 'frames/05-sentence.png'
+duration 6
+file 'frames/06-keep-roman.png'
+duration 5
+file 'frames/07-next.png'
+duration 8
+file 'frames/07-next.png'

@@ -1,5 +1,5 @@
 {
-  "url": "http://127.0.0.1:56167",
+  "url": "http://127.0.0.1:61177",
   "self_test": true,
   "config": {
     "words": 20,
@@ -13,44 +13,15 @@
       "ok": 20,
       "failures": 0,
       "client_ms": {
-        "p50": 3.142,
-        "p95": 3.878,
-        "p99": 5.628,
-        "mean": 2.775
+        "p50": 1.379,
+        "p95": 1.554,
+        "p99": 1.58,
+        "mean": 1.354
       },
       "server_ms": {
-        "p50": 0.12,
-        "p95": 0.2,
-        "mean": 0.127
-      },
-      "compute_ms": {
-        "p50": 0.01,
-        "p95": 0.01,
-        "mean": 0.01
-      },
-      "derived": {
-        "transport_ms_p95": 3.678,
-        "queue_ms_p95": 0.19
-      },
-      "cache_hits": 0,
-      "wall_s": 6.458,
-      "achieved_rps": 3.1
-    },
-    {
-      "scenario": "prefix_walk",
-      "requests": 143,
-      "ok": 143,
-      "failures": 0,
-      "client_ms": {
-        "p50": 1.147,
-        "p95": 2.426,
-        "p99": 3.584,
-        "mean": 1.327
-      },
-      "server_ms": {
-        "p50": 0.05,
-        "p95": 0.1,
-        "mean": 0.054
+        "p50": 0.06,
+        "p95": 0.07,
+        "mean": 0.061
       },
       "compute_ms": {
         "p50": 0.0,
@@ -58,28 +29,28 @@
         "mean": 0.001
       },
       "derived": {
-        "transport_ms_p95": 2.326,
-        "queue_ms_p95": 0.09
+        "transport_ms_p95": 1.484,
+        "queue_ms_p95": 0.06
       },
-      "cache_hits": 51,
-      "wall_s": 0.195,
-      "achieved_rps": 733.33
+      "cache_hits": 0,
+      "wall_s": 6.421,
+      "achieved_rps": 3.11
     },
     {
-      "scenario": "burst",
-      "requests": 20,
-      "ok": 20,
+      "scenario": "prefix_walk",
+      "requests": 143,
+      "ok": 143,
       "failures": 0,
       "client_ms": {
-        "p50": 5.303,
-        "p95": 6.447,
-        "p99": 6.727,
-        "mean": 5.016
+        "p50": 0.806,
+        "p95": 1.071,
+        "p99": 1.361,
+        "mean": 0.83
       },
       "server_ms": {
         "p50": 0.03,
-        "p95": 0.03,
-        "mean": 0.026
+        "p95": 0.04,
+        "mean": 0.03
       },
       "compute_ms": {
         "p50": 0.0,
@@ -87,12 +58,41 @@
         "mean": 0.0
       },
       "derived": {
-        "transport_ms_p95": 6.417,
+        "transport_ms_p95": 1.031,
+        "queue_ms_p95": 0.04
+      },
+      "cache_hits": 51,
+      "wall_s": 0.121,
+      "achieved_rps": 1181.82
+    },
+    {
+      "scenario": "burst",
+      "requests": 20,
+      "ok": 20,
+      "failures": 0,
+      "client_ms": {
+        "p50": 5.394,
+        "p95": 6.564,
+        "p99": 7.4,
+        "mean": 4.988
+      },
+      "server_ms": {
+        "p50": 0.03,
+        "p95": 0.03,
+        "mean": 0.029
+      },
+      "compute_ms": {
+        "p50": 0.0,
+        "p95": 0.0,
+        "mean": 0.0
+      },
+      "derived": {
+        "transport_ms_p95": 6.534,
         "queue_ms_p95": 0.03
       },
       "cache_hits": 20,
-      "wall_s": 0.012,
-      "achieved_rps": 1666.67
+      "wall_s": 0.011,
+      "achieved_rps": 1818.18
     }
   ],
   "pass_hint": "Tier A gate is client_ms p95 < 100 on the weakest supported PC (cold_cache)."

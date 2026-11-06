@@ -107,11 +107,6 @@ docker run --rm -p 8765:8765 ghcr.io/silentflame/transliterationsystem:offline
 
 Docker Desktop: open Docker Desktop, wait until it says the engine is running, then retry the same `docker run`. On a Linux VM where Docker is a system service: `sudo systemctl start docker`. If the error is "permission denied" rather than "cannot connect", add your user to the `docker` group and open a new shell, or run with `sudo`.
 
-If `docker pull` is denied, the package is still private. Open
-[package settings](https://github.com/users/SilentFlame/packages/container/transliterationsystem/settings)
-→ **Change visibility** → **Public**. Repo:
-[SilentFlame/TransliterationSystem](https://github.com/SilentFlame/TransliterationSystem).
-
 ### Build the images yourself
 
 From a clone that already has `var/registry` (`make warm-model && make publish`):
@@ -259,7 +254,20 @@ python -m benchmarks.quality_dakshina --arms stock,base,rescore \
   --package-dir var/local_store/packages/hi/hi-1.0.0
 ```
 
-Quality gate: packaged `base` must emit the **same candidates** as stock on the same inputs (packaging regression). The recorded run is `results/quality_dakshina.json`: base lists match stock (sample top-1 78.77%, top-4 94.07%), and rescore lifts sample top-1 to 86.91%. The published Dakshina Hindi top-1 of 60.56 needs the official test split; this sample is the packaging gate.
+Quality gate: packaged `base` must emit the **same candidates** as stock on the same inputs (packaging regression). The recorded run is `results/quality_dakshina.json`: base lists match stock (sample top-1 78.77%, top-4 94.07%), and rescore lifts sample top-1 to 86.91%. That sample is a packaging check. It is not the published Dakshina number.
+
+Official Dakshina Hindi test split: 4,502 attested pairs (2,500 words) from `dakshina_dataset_v1.0`, file `hi.translit.sampled.test.tsv`. Each pair is one example. The metric is exact string match, the same one IndicXlit reports, not Dakshina CER.
+
+```bash
+bash scripts/fetch_dakshina_hi.sh
+python -m benchmarks.quality_dakshina \
+  --lexicon data/dakshina/hi.translit.sampled.test.tsv \
+  --arms stock,base,rescore \
+  --package-dir var/registry/hi/hi-1.0.0 \
+  --out results/quality_dakshina_hi_test.json
+```
+
+Recorded in the latest change, in `results/quality_dakshina_hi_test.json`. Stock and the packaged base engine both score **60.33% top-1** and **84.65% top-4**, and their candidate lists match. IndicXlit's published Hindi result on this benchmark is **60.56% top-1**. Rescore lifts top-1 to **72.26%**.
 
 Cost model (assumptions are estimates to verify): with ~200 court mirrors, central ≈ **$40/mo** (~$8 / 1k users) vs ~$240/mo if every machine pulls direct, vs ~$380/mo for a single always-on GPU instance that still fails the latency/blackout story. Details: `make bench-cost` and [docs/REPORT.md](docs/REPORT.md).
 

@@ -30,7 +30,7 @@ wrong topology.
 **Partly measured:** `benchmarks/fleet_stress.py` ran 16 real services and 16
 typists at once (`results/stress_fleet_*.json`). All of them shared one
 laptop's 11 cores, so it measures contention on a shared machine, not 500
-independent PCs. Re-run on 6 November 2026: default PyTorch threading roughly
+independent PCs. Latest re-run: default PyTorch threading roughly
 doubles p95 under that contention (65 ms → 29 ms with one thread per process).
 The lookups still over 100 ms are the simultaneous first keystroke.
 
@@ -107,7 +107,7 @@ From DESIGN §7, refined after this shippable pass:
 
 | # | Work | Why |
 |---|---|---|
-| 0 | Set one torch thread per local service by default | Re-measured 6 Nov: shared-machine p95 65 → 29 ms. Lookups still over 100 ms are the simultaneous first keystroke. No cost for one typist. |
+| 0 | Set one torch thread per local service by default | Latest re-run: shared-machine p95 65 → 29 ms. Lookups still over 100 ms are the simultaneous first keystroke. No cost for one typist. |
 | 1 | Run quality gate on **full** Dakshina hi split + package identity check in CI | Absolute number + pre-publish gate |
 | 2 | Weakest-PC profile + finalize hardware-gate numbers | Decides Tier A/B mix |
 | 3 | Wire `bench-quality` into `publish` (refuse to move `LATEST` on gate fail) | Release safety |

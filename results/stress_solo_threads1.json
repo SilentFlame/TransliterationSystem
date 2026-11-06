@@ -1,5 +1,5 @@
 {
-  "label": "re-run 2026-11-06 solo, 1 torch thread",
+  "label": "latest re-run, solo, 1 torch thread",
   "started_at": "2026-11-06T11:32:14+0530",
   "cold_start": {
     "fleet_ready_s": 2.71,

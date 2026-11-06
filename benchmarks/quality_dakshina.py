@@ -40,6 +40,11 @@ if str(ROOT) not in sys.path:
 
 
 def load_pairs(path: Path) -> list[tuple[str, str]]:
+    """Return (roman, native) pairs.
+
+    Two columns are the checked-in sample: roman, native.
+    Three or more columns are a Dakshina lexicon: native, roman, count.
+    """
     pairs: list[tuple[str, str]] = []
     for line in path.read_text(encoding="utf-8").splitlines():
         line = line.strip()
@@ -48,7 +53,11 @@ def load_pairs(path: Path) -> list[tuple[str, str]]:
         parts = line.split("\t")
         if len(parts) < 2:
             raise SystemExit(f"bad lexicon line in {path}: {line!r}")
-        pairs.append((parts[0].strip().lower(), parts[1].strip()))
+        if len(parts) >= 3:
+            native, roman = parts[0].strip(), parts[1].strip().lower()
+        else:
+            roman, native = parts[0].strip().lower(), parts[1].strip()
+        pairs.append((roman, native))
     return pairs
 
 
@@ -63,10 +72,12 @@ def score_arm(name: str, suggest, pairs: list[tuple[str, str]], topk: int) -> di
     hits1 = hits_k = 0
     latencies: list[float] = []
     mismatches: list[dict] = []
-    for roman, gold in pairs:
+    for i, (roman, gold) in enumerate(pairs, start=1):
         t0 = time.perf_counter()
         cands = list(suggest(roman, topk))[:topk]
         latencies.append((time.perf_counter() - t0) * 1000)
+        if i % 500 == 0 or i == len(pairs):
+            print(f"  {name} {i}/{len(pairs)}", flush=True)
         if cands and cands[0] == gold:
             hits1 += 1
         if gold in cands:
@@ -213,7 +224,12 @@ def main(argv: list[str] | None = None) -> int:
         "gate": gate,
         "notes": [
             "Metric is exact string match (IndicXlit / Aksharantar reporting), not Dakshina CER/WER.",
-            "Absolute top-1 on this sample is not comparable to the published 60.56 without the full Dakshina test split.",
+            (
+                "Lexicon is the official Dakshina Hindi test split. Each attested pair is one example. "
+                "Published IndicXlit Hindi top-1 on this benchmark is 60.56."
+                if "sampled.test" in args.lexicon.name
+                else "Absolute top-1 on this sample is not comparable to the published 60.56 without the official Dakshina test split."
+            ),
             "The packaging gate is stock vs base candidate-list identity on the same inputs.",
         ],
     }

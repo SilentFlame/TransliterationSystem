@@ -1,5 +1,5 @@
 {
-  "label": "re-run 2026-11-06 cold start, 16 sessions, direct to central",
+  "label": "latest re-run, cold start, 16 sessions, direct to central",
   "started_at": "2026-11-06T11:23:50+0530",
   "cold_start": {
     "fleet_ready_s": 20.98,

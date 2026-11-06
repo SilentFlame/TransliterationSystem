@@ -1,5 +1,5 @@
 {
-  "label": "re-run 2026-11-06 warm restart, link up, 1 torch thread, 16 typists",
+  "label": "latest re-run, warm restart, link up, 1 torch thread, 16 typists",
   "started_at": "2026-11-06T11:30:07+0530",
   "cold_start": {
     "fleet_ready_s": 14.0,

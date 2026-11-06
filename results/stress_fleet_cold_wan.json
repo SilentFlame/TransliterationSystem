@@ -1,5 +1,5 @@
 {
-  "label": "re-run 2026-11-06 cold start + 16 typists via WAN emulator",
+  "label": "latest re-run, cold start + 16 typists via WAN emulator",
   "started_at": "2026-11-06T11:24:14+0530",
   "cold_start": {
     "fleet_ready_s": 194.09,

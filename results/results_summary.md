@@ -8,7 +8,8 @@ Index of the JSON artifacts in this directory. Numbers below are taken from thos
 | [latency_baseline_rescore.json](latency_baseline_rescore.json) | Same sweep with rescore | Yes |
 | [latency_http.json](latency_http.json) | HTTP harness against a warm local service (`127.0.0.1:8765`) | Yes |
 | [latency_http_selftest.json](latency_http_selftest.json) | Same harness, in-process fake engine | No |
-| [quality_dakshina.json](quality_dakshina.json) | Exact-match top-1 / top-4 gate | Yes |
+| [quality_dakshina.json](quality_dakshina.json) | Exact-match top-1 / top-4 on the 405-word sample | Yes |
+| [quality_dakshina_hi_test.json](quality_dakshina_hi_test.json) | Same gate on the official Dakshina Hindi test split | Yes |
 | [cost_model.json](cost_model.json) | Monthly cost at 5,000 machines | No |
 | [stress_cold_direct.json](stress_cold_direct.json) | 16 fresh sessions, direct to central | Yes |
 | [stress_fleet_cold_wan.json](stress_fleet_cold_wan.json) | 16 fresh sessions through the WAN emulator, then 16 typists | Yes |
@@ -56,7 +57,7 @@ Cold-cache transport p95 is 2.7 ms and queue p95 is 0.1 ms, so almost all of the
 
 ### Fake-engine self-test (`latency_http_selftest.json`)
 
-`self_test: true`. Same scenario shapes, compute is a stub. Re-run on 6 November 2026: cold-cache client p95 is **1.6 ms** (it was 3.9 ms on 3 November). These numbers check the harness. They are not the latency bar, and they move between runs.
+`self_test: true`. Same scenario shapes, compute is a stub. Latest re-run: cold-cache client p95 is **1.6 ms** (it was 3.9 ms on 3 November). These numbers check the harness. They are not the latency bar, and they move between runs.
 
 ---
 
@@ -70,7 +71,19 @@ Exact string match, Hindi, beam 4, top-4. Sample: `data/dakshina_hi_sample.tsv` 
 | packaged base | 78.77% | 94.07% | 75.51% | 85.71% | 31.9 ms |
 | packaged rescore | 86.91% | 94.07% | 79.59% | 85.71% | 32.1 ms |
 
-Gate: `packaging_identical: true` (base candidate lists equal stock). `rescore_not_worse_than_base: true`. Published Hindi Dakshina top-1 is 60.56 on the official split. This sample is a curated subset, so 78.77% is the packaging gate, not that published number.
+Gate: `packaging_identical: true` (base candidate lists equal stock). `rescore_not_worse_than_base: true`. This sample is a curated packaging check. The published 60.56 is the official test split, scored below.
+
+## Quality, official Dakshina Hindi test (`quality_dakshina_hi_test.json`)
+
+Latest change. Lexicon: `data/dakshina/hi.translit.sampled.test.tsv` (4,502 attested pairs, 2,500 words; native, roman, count). Exact string match, beam 4, top-4. Package: `var/registry/hi/hi-1.0.0`. Each attested pair is one example.
+
+| Arm | Top-1 | Top-4 |
+|---|---|---|
+| stock | 60.33% | 84.65% |
+| packaged base | 60.33% | 84.65% |
+| packaged rescore | 72.26% | 84.65% |
+
+`packaging_identical: true`. Published IndicXlit Hindi top-1 on this benchmark is 60.56%. Fetch and rerun: `bash scripts/fetch_dakshina_hi.sh`, then the command in the README.
 
 ---
 
@@ -82,7 +95,7 @@ Gate: `packaging_identical: true` (base candidate lists equal stock). `rescore_n
 
 All 16 engines share one laptop's cores, so this measures a court node with 16 typists, or 16 weak PCs. Tier A puts each engine on its own PC.
 
-Numbers below are the **6 November 2026** re-run (11:23–11:32 IST). The laptop was not idle. An earlier run on 3 November was faster in the tail; the direction of every result is the same.
+Numbers below are the **latest** re-run (11:23–11:32 IST). The laptop was not idle. An earlier run on 3 November was faster in the tail; the direction of every result is the same.
 
 ### Cold start
 

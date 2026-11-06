@@ -26,10 +26,9 @@ cross 100 ms are the first keystroke, when all 16 typists start together.
 All numbers below come from JSON files in `results/`, measured on an Apple M3 Pro (11 cores,
 18 GB RAM). They are fast-hardware numbers; section 10 covers what changes on a weak courtroom PC.
 
-**Dates.** Sections 6 and 7 (one engine, one typist, quality) were recorded on **3 November 2026**
-and were not repeated. On **6 November 2026** the suite was re-run: 29 unit tests (all passed),
+**Dates.** Sections 6 and 7 (one engine, one typist, the 405-word quality sample) were recorded on **3 November 2026**. In the latest change the suite was re-run, and section 7 gained the official Dakshina Hindi test: 29 unit tests (all passed),
 the cost model (unchanged), the HTTP harness self-test, and every stress scenario in section 8.
-Section 8 quotes the 6 November run. The laptop was not idle that morning (another process was
+Section 8 quotes the latest run. The laptop was not idle that morning (another process was
 already bound to port 8700), so cold-start and tail numbers are a little slower than on 3 November.
 The direction of every result is the same. Later the same day the three container images were
 built, run on this machine, and pushed to GHCR (section 4, section 13).
@@ -136,7 +135,7 @@ Three running components and their tests, all in this repository.
 | `benchmarks/wan_proxy.py` | A courtroom WAN link between services and central: delay, jitter, shared bandwidth, drops, and a kill switch |
 | `benchmarks/fleet_stress.py` | N real services started at once, then N typists replaying sentences keystroke by keystroke |
 
-**Container images (6 November, afternoon).** One Dockerfile builds three images, published for
+**Container images (latest change).** One Dockerfile builds three images, published for
 `linux/amd64` and `linux/arm64` as `ghcr.io/silentflame/transliterationsystem:{offline,central,local}`.
 `offline` has the Hindi base package inside and boots with central unreachable. `central` is the
 registry with `hi-1.0.0` baked in. `local` starts empty, downloads base, then serves. Rescore is
@@ -212,9 +211,22 @@ Our package returns exactly the same suggestion lists as the original library, s
 our way did not change the model. Rescore raises top-1 by about eight points, which is why it
 is the background upgrade.
 
-The published Hindi Dakshina top-1 is **60.56%**, measured on the official test list. Our
-405-word sample is curated and easier, so 78.77% is not a claim to beat that figure. Running
-the official list is the first item of future work.
+The published Hindi Dakshina top-1 is **60.56%**, on the official test list. The 405-word
+sample is curated and easier, so 78.77% is not that figure.
+
+In the latest change the same harness scored the official list
+(`hi.translit.sampled.test.tsv`: 4,502 attested pairs, 2,500 words). Each pair is one example,
+exact string match, beam 4. Result: `results/quality_dakshina_hi_test.json`.
+
+| Engine | Official test top-1 | top-4 |
+|---|---|---|
+| Original library | **60.33%** | 84.65% |
+| Our package, base | **60.33%** | 84.65% |
+| Our package, rescore | **72.26%** | 84.65% |
+
+Base returns the same candidate lists as the library. 60.33% sits next to the published
+60.56% (about 10 pairs out of 4,502). Rescore, which the typist service loads in the
+background, is 12 points higher on the same list.
 
 ### 7.2 Running courtroom text
 
@@ -244,7 +256,7 @@ would accept (गये for गए, नही for नहीं, मा for म�
 All 16 copies share one laptop's 11 cores. That makes this a picture of a shared court
 computer, or of weak PCs. In the chosen design each typist has their own machine.
 
-Re-run **6 November 2026**, 11:23–11:32 IST. Registry on port 8710, court-link emulator on 8711
+Latest re-run, 11:23–11:32 IST. Registry on port 8710, court-link emulator on 8711
 (port 8700 was already in use). Zero failed lookups in every typing run. Word top-1 stayed
 **82.48%** and top-4 **98.12%** in every run.
 
@@ -358,8 +370,8 @@ says they are needed.
 
 * Production authentication, TLS, and the court mirror and fallback server.
 * Languages beyond Hindi (packages are per language, so this is packaging work, not a redesign).
-* The official Dakshina test run and a quality gate inside publishing.
-* Installer and OS-service packaging; a container image or hosted demo.
+* A publish-time gate that refuses to move `LATEST` when the package differs from stock on the Dakshina test list. The list itself was run in the latest change (section 7).
+* Installer and OS-service packaging. The container images are published; there is no public URL.
 * Measurements on real courtroom PCs. Every number here is from one fast laptop.
 
 ### 10.3 Known limitations of the evidence
@@ -368,9 +380,8 @@ says they are needed.
   the throughput of 16 separate PCs.
 * The link emulator runs in software on the same machine. Kernel-level shaping (`dnctl` +
   `pfctl` on macOS) or a real remote host would be closer to a court network.
-* The quality sample and stress sentences are curated. The reference spellings mostly drop
-  nukta, so accuracy is a conservative figure, and the absolute numbers are not comparable to
-  the published 60.56.
+* The 405-word sample and the stress sentences are curated. The official test split is the
+  number next to 60.56 (section 7). The stress-sentence accuracy is a separate check.
 * Memory under the fleet is understated by `ps`, because macOS compresses idle pages. Size
   from the single-session figure: about 0.5 GB per base engine.
 
@@ -380,8 +391,8 @@ says they are needed.
 
 | # | Work | Why |
 |---|---|---|
-| 1 | Set one PyTorch thread per local service by default | Re-measured 6 Nov: shared-machine p95 65 → 29 ms. The lookups still over 100 ms are the simultaneous first keystroke. No cost for one typist. |
-| 2 | Run the official Hindi Dakshina test list; block publishing when the package differs from stock | Puts our number next to 60.56 and makes quality a release gate |
+| 1 | Set one PyTorch thread per local service by default | Latest re-run: shared-machine p95 65 → 29 ms. The lookups still over 100 ms are the simultaneous first keystroke. No cost for one typist. |
+| 2 | Block publishing when the package differs from stock on the Dakshina test list | The list was run in the latest change (60.33% vs published 60.56%, lists identical). The check is not yet a gate on `LATEST` |
 | 3 | Profile real courtroom PCs; set the hardware check thresholds | Decides how many PCs run locally and how many courts need a fallback server |
 | 4 | Build the court mirror and stagger rollouts | Turns the 3-minute shared-uplink install into one download per court; $237 → $39/month |
 | 5 | Signed packages, staged rollout, automatic rollback from heartbeats | Release safety at fleet scale |
@@ -424,26 +435,26 @@ The exact command for each stress result file is listed in
 
 ---
 
-## 13. Assignment coverage (checked again 6 November 2026, after the images)
+## 13. Assignment coverage (checked again after the images, latest change)
 
-Twelve asks, scored from the table below. **10 are done and 2 are partial. Counting a partial as half, that is 11 / 12 ≈ 92%.** The suggested demo (a container, a deployed endpoint, or a hosted browser demo) is met by the images and the walkthrough video. The remaining 8% is the unrun official Dakshina split, and load measured at 16 sessions rather than 500 machines. Neither changes the runtime choice.
+Twelve asks, scored from the table below. **11 are done and 1 is partial. Counting a partial as half, that is 11.5 / 12 ≈ 96%.** The suggested demo (a container, a deployed endpoint, or a hosted browser demo) is met by the images and the walkthrough video. The official Dakshina Hindi test was run in the latest change (section 7): packaged base is 60.33% top-1 against the published 60.56%, with the same candidate lists as the library. The remaining partial is load measured at 16 sessions rather than 500 machines. It does not change the runtime choice.
 
 | Assignment ask | Status |
 |---|---|
 | Characterize the workload and the 100 ms budget | Done. Section 1. |
 | Choose where it runs, against the alternatives | Done. Sections 2–3 and [DESIGN.md](DESIGN.md). |
-| Working prototype, ranked suggestions end to end | Done. Editor, local service, central registry. 29 tests passed on 6 Nov. |
+| Working prototype, ranked suggestions end to end | Done. Editor, local service, central registry. 29 tests passed in the latest change. |
 | Reproducible setup and benchmark replay | Done. `make setup` still needs Python 3.10, `pip<24.1`, and `--no-deps`. The images are the path that does not need that: built and run here, pushed for amd64 and arm64. A `docker pull` of `:offline` on this Mac succeeded; the following `docker run` failed because Colima's socket was down, which is the host engine, not the image. |
-| Latency percentiles per lookup | Done. One typist (3 Nov) and 16 typists (6 Nov). |
-| Cold start and time to first suggestion | Done. Section 8, re-measured 6 Nov. Inside the image: offline ready in 3–5 s; a fresh local session's first suggestion ~2.5 s after central answered. |
+| Latency percentiles per lookup | Done. One typist (3 Nov) and 16 typists (latest change). |
+| Cold start and time to first suggestion | Done. Section 8, re-measured in the latest change. Inside the image: offline ready in 3–5 s; a fresh local session's first suggestion ~2.5 s after central answered. |
 | Resource use | Done for the stress runs (RSS and CPU in the JSON). The offline container sat near 450 MB. |
 | Throughput / concurrency, load-tested rather than one call | Partial. 16 real services on one laptop over a simulated court link, about 59 lookups/s. Not 500 independent PCs, and not a saturation curve. The design treats 500 concurrent as 500 machines. |
-| Cost model with stated assumptions | Done. Re-checked 6 Nov: $237/month for what ships, $39/month with the unbuilt court mirror. |
-| Quality against the known baseline | Partial. Packaged base matches stock on a 405-word sample (3 Nov). The official Dakshina Hindi top-1 of 60.56 has not been run. Running text on 902 words is 82.48% top-1 (6 Nov). |
+| Cost model with stated assumptions | Done. Re-checked in the latest change: $237/month for what ships, $39/month with the unbuilt court mirror. |
+| Quality against the known baseline | Done. Official Dakshina Hindi test, latest change: stock and packaged base both 60.33% top-1 / 84.65% top-4, lists identical. Published IndicXlit Hindi top-1 is 60.56%. Rescore on the same list is 72.26% top-1. The 405-word sample (3 Nov) remains the quick packaging check. |
 | What breaks at 10×, and what was traded away | Done. Section 10. |
 | Container, deployed endpoint, or hosted browser demo | Done as a container plus a video. Images: `ghcr.io/silentflame/transliterationsystem:{offline,central,local}`, both architectures. Walkthrough: [../docs/demo/courtroom-editor-demo.mp4](../docs/demo/courtroom-editor-demo.mp4). The package is still private, and there is no public URL. |
 
-Left for later, and called out as such: one torch thread as the service default, the official Dakshina split, a profile of real courtroom PCs, the court mirror, signed packages and staged rollout, the court fallback server (workers, TLS, editor failover), a public GHCR package and a CPU-only `make setup` on x86, and languages beyond Hindi.
+Left for later, and called out as such: one torch thread as the service default, a publish gate on the Dakshina test list, a profile of real courtroom PCs, the court mirror, signed packages and staged rollout, the court fallback server (workers, TLS, editor failover), a public GHCR package and a CPU-only `make setup` on x86, and languages beyond Hindi.
 
 ---
 
@@ -454,7 +465,8 @@ Left for later, and called out as such: one torch thread as the service default,
 | `results/latency_baseline.json` · `latency_baseline_rescore.json` | Model speed by beam and word length |
 | `results/latency_http.json` | One typist through the real service |
 | `results/latency_http_selftest.json` | Harness check with a fake engine (not a speed result) |
-| `results/quality_dakshina.json` | Stock vs package vs rescore quality |
+| `results/quality_dakshina.json` | Stock vs package vs rescore on the 405-word sample |
+| `results/quality_dakshina_hi_test.json` | Same arms on the official Dakshina Hindi test split (latest change) |
 | `results/cost_model.json` | Monthly cost scenarios and 10× |
 | `results/stress_cold_direct.json` | Scenario A: 16 fresh installs, direct |
 | `results/stress_fleet_cold_wan.json` | Scenario B: 16 fresh installs over the court link + typing |

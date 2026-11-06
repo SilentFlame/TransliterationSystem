@@ -1,5 +1,5 @@
 {
-  "label": "re-run 2026-11-06 solo, default threads",
+  "label": "latest re-run, solo, default threads",
   "started_at": "2026-11-06T11:31:34+0530",
   "cold_start": {
     "fleet_ready_s": 3.43,

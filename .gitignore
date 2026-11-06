@@ -15,3 +15,5 @@ docker/preloaded_store/
 # Host-exported corporate CAs, only needed to build behind TLS inspection
 docker/certs/*
 !docker/certs/.gitkeep
+# Raw Dakshina lexicon (CC BY-SA 4.0): fetched by scripts/fetch_dakshina_hi.sh, not redistributed
+data/dakshina/
